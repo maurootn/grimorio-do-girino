@@ -1,0 +1,724 @@
+<!doctype html><html lang="pt-BR" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Grimório do Girino</title><meta name="theme-color" content="#0F1A1D"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png">
+<style>@font-face{font-family:"Grenze Gotisch";src:url(fonts/grenze-gotisch-latin-600-normal.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Grenze Gotisch";src:url(fonts/grenze-gotisch-latin-800-normal.woff2) format("woff2");font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:"IM Fell English SC";src:url(fonts/im-fell-english-sc-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"IM Fell English";src:url(fonts/im-fell-english-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"IM Fell English";src:url(fonts/im-fell-english-latin-400-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Literata";src:url(fonts/literata-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Literata";src:url(fonts/literata-latin-600-normal.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Literata";src:url(fonts/literata-latin-400-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Space Mono";src:url(fonts/space-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Space Mono";src:url(fonts/space-mono-latin-700-normal.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+
+/* Layout: casco de nautiloide no topo (cena desenhada), abas como marcadores de diário, páginas orgânicas de membrana; tema claro = diário de campanha em papel com lacre. */
+:root{
+  --bg:#F1E7D3;--page:#FBF5E8;--sunk:#E8DCC3;--rim:#CDBB98;--ink:#2A2019;--soft:#6E5E4C;
+  --glow:#1E6E66;--flesh:#B0434F;--copper:#8E5A2B;--wax:#9E2B25;--ok:#2F7A55;--maybe:#A0640E;--bad:#A8322F;
+  --r-h:#B8811A;--r-m:#1E7D74;--r-v:#5E7A1E;--r-r:#3E62B0;--r-d:#9E1F2C;
+  --bgimg:radial-gradient(900px 420px at 85% -10%,rgba(158,43,37,.07),transparent 60%),radial-gradient(700px 400px at 5% 105%,rgba(30,110,102,.08),transparent 60%);
+  --membrane:inset 0 0 0 1px var(--rim);
+  --f-logo:"Grenze Gotisch","UnifrakturCook",Georgia,serif;--f-head:"IM Fell English SC","IM Fell English",Georgia,serif;--f-ital:"IM Fell English",Georgia,serif;
+  --f-body:"Literata",Georgia,serif;--f-num:"Space Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#081012;--page:#0F1A1D;--sunk:#152427;--rim:#244046;--ink:#EADFC9;--soft:#94A7A6;
+  --glow:#46E0C9;--flesh:#EF7C8E;--copper:#D19656;--wax:#E0564B;--ok:#58D6A6;--maybe:#F0B455;--bad:#F06F6F;
+  --r-h:#F2C35A;--r-m:#46E0C9;--r-v:#A8CF4E;--r-r:#8DB0FF;--r-d:#F0505F;
+  --bgimg:radial-gradient(900px 460px at 85% -10%,rgba(239,124,142,.13),transparent 60%),radial-gradient(800px 480px at 0% 110%,rgba(70,224,201,.10),transparent 60%);
+  --membrane:inset 0 0 0 1px var(--rim),inset 0 0 24px rgba(70,224,201,.05);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#081012;--page:#0F1A1D;--sunk:#152427;--rim:#244046;--ink:#EADFC9;--soft:#94A7A6;
+  --glow:#46E0C9;--flesh:#EF7C8E;--copper:#D19656;--wax:#E0564B;--ok:#58D6A6;--maybe:#F0B455;--bad:#F06F6F;
+  --r-h:#F2C35A;--r-m:#46E0C9;--r-v:#A8CF4E;--r-r:#8DB0FF;--r-d:#F0505F;
+  --bgimg:radial-gradient(900px 460px at 85% -10%,rgba(239,124,142,.13),transparent 60%),radial-gradient(800px 480px at 0% 110%,rgba(70,224,201,.10),transparent 60%);
+  --membrane:inset 0 0 0 1px var(--rim),inset 0 0 24px rgba(70,224,201,.05);
+  color-scheme:dark}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+body{background:var(--bgimg),var(--bg);background-attachment:fixed;color:var(--ink);font:16.5px/1.6 var(--f-body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--page)}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1240px;margin:0 auto}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--page);box-shadow:0 1px 0 var(--rim),0 6px 18px rgba(0,0,0,.18)}
+.top{display:flex;align-items:center;gap:12px;padding-block:10px 4px}
+.logo{width:38px;height:38px;flex:none}
+.brand{line-height:1}
+.brand b{font:800 1.7rem/1 var(--f-logo);letter-spacing:.01em;color:var(--ink)}
+.brand b em{font-style:normal;color:var(--flesh)}
+.brand small{display:block;font:italic .82rem var(--f-ital);color:var(--soft);margin-top:3px}
+.sync{margin-left:auto;font:.68rem var(--f-num);color:var(--soft);text-align:right}
+nav{display:flex;gap:4px;overflow-x:auto;padding-block:6px 0;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{font:1rem var(--f-head);background:var(--sunk);border:0;color:var(--soft);padding:7px 14px 6px;border-radius:10px 10px 0 0;cursor:pointer;white-space:nowrap;position:relative;top:1px;box-shadow:inset 0 0 0 1px var(--rim)}
+nav button[aria-selected="true"]{background:var(--bg);color:var(--ink);box-shadow:inset 0 0 0 1px var(--rim),inset 0 -3px 0 var(--flesh)}
+nav button svg{width:15px;height:15px;vertical-align:-2px;margin-right:6px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--glow);outline-offset:2px}
+main{padding-block:22px 64px}
+[role=tabpanel]{display:flex;flex-direction:column;gap:20px}
+h2{font:400 1.75rem/1.15 var(--f-head);margin:0;text-wrap:balance;color:var(--ink);display:flex;align-items:center;gap:12px}
+h2 svg{width:42px;height:18px;flex:none;stroke:var(--flesh);fill:none;stroke-width:1.6;stroke-linecap:round}
+h3{font:400 1.2rem var(--f-head);margin:0;text-wrap:balance}
+p{margin:0}
+.lede{color:var(--soft);max-width:70ch;font-style:italic;font-family:var(--f-ital);font-size:1.05rem}
+.label,th{font:700 .66rem var(--f-num);letter-spacing:.16em;text-transform:uppercase;color:var(--copper)}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.page{background:var(--page);border-radius:22px 6px 22px 6px;padding:18px;box-shadow:var(--membrane),0 2px 10px rgba(0,0,0,.10);position:relative}
+.note{border-left:4px solid var(--wax);border-radius:4px 18px 18px 4px}
+.note b{color:var(--ink)}
+.seal{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 4px;border-radius:12px;background:radial-gradient(circle at 35% 35%,#d65a4e,#9E2B25);color:#fff;font:700 .66rem var(--f-num);margin-right:8px;vertical-align:-5px;box-shadow:0 1px 2px rgba(0,0,0,.4)}
+.swim{height:10px;border-radius:10px;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--rim);position:relative}
+.swim>i{position:absolute;left:0;top:0;bottom:0;border-radius:10px;background:linear-gradient(90deg,var(--flesh),var(--glow));min-width:10px}
+.swim>i::after{content:"";position:absolute;right:-3px;top:-3px;width:16px;height:16px;border-radius:50% 40% 40% 50%;background:var(--flesh);box-shadow:0 0 10px var(--flesh)}
+.ap{display:inline-flex;align-items:center;gap:5px;font:700 .64rem var(--f-num);letter-spacing:.06em;text-transform:uppercase;padding:3px 9px 3px 5px;border-radius:20px;white-space:nowrap}
+.ap::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor}
+.ap.ok{color:var(--ok);background:rgba(88,214,166,.13)}
+.ap.cond{color:var(--maybe);background:rgba(240,180,85,.13)}
+.ap.no{color:var(--bad);background:rgba(240,111,111,.13)}
+.ap.you{color:var(--glow);background:rgba(70,224,201,.13);box-shadow:inset 0 0 0 1px var(--glow)}
+.pcbar{border-left:4px solid var(--em);border-radius:4px 18px 18px 4px}
+.orig{display:flex;flex-direction:column;gap:10px}
+.orig ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:.92rem}
+.orig li b{color:var(--bad)}
+.orig.on{box-shadow:var(--membrane),0 0 0 2px var(--em),0 0 22px -6px var(--em)}
+.port{display:inline-grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#1d3034,#081012 75%);box-shadow:0 0 0 2px var(--page),0 0 0 3.5px var(--em),0 0 14px -2px var(--em)}
+.port svg{width:24px;height:24px;fill:none;stroke:var(--em);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.port.sm{width:22px;height:22px;box-shadow:0 0 0 1.5px var(--em)}
+.port.sm svg{width:13px;height:13px;stroke-width:2.1}
+.routes{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.route{display:flex;flex-direction:column;gap:9px;border-top:4px solid var(--rc)}
+.route .h{display:flex;gap:10px;align-items:center}
+.route .h b{font:400 1.25rem var(--f-head)}
+.route .camp{font:.66rem var(--f-num);color:var(--soft);letter-spacing:.06em;text-transform:uppercase}
+.route .cnt{font:700 2rem/1 var(--f-num);color:var(--rc)}
+.route p{font-size:.93rem;color:var(--soft)}
+.die{display:inline-grid;place-items:center;width:28px;height:32px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:var(--rc);color:var(--page);font:700 .78rem var(--f-num)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px dashed var(--rim);vertical-align:middle}
+th{border-bottom:1.5px solid var(--copper)}
+.mx td.c{text-align:center;min-width:96px}
+.ap.dot{padding:5px}.ap.dot::before{width:10px;height:10px}
+.mx.compact td.c{min-width:44px}
+.who{display:flex;align-items:center;gap:9px;white-space:nowrap}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{font:.95rem var(--f-head);border:0;background:var(--sunk);color:var(--ink);border-radius:20px;padding:6px 14px;cursor:pointer;display:inline-flex;gap:7px;align-items:center;box-shadow:inset 0 0 0 1px var(--rim)}
+.chip i{width:9px;height:11px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:var(--rc,var(--soft))}
+.chip[aria-pressed="true"]{background:var(--page);box-shadow:inset 0 0 0 1.5px var(--rc,var(--glow)),0 0 12px -4px var(--rc,var(--glow))}
+details.act{padding:0}
+details.act>summary{list-style:none;cursor:pointer;padding:15px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+details.act>summary::-webkit-details-marker{display:none}
+details.act>summary h3{font-size:1.35rem}
+details.act>summary .sp{margin-left:auto;display:flex;gap:10px;align-items:center;color:var(--soft);font-size:.85rem}
+.chev{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--sunk);color:var(--flesh);transition:transform .2s}
+details.act[open] .chev{transform:rotate(90deg)}
+.steps{border-top:1px dashed var(--rim)}
+.step{display:grid;grid-template-columns:32px minmax(0,1fr);gap:10px;padding:14px 18px;border-bottom:1px dashed var(--rim)}
+.step:last-child{border-bottom:0}
+.step.done .st-title{color:var(--soft);text-decoration:line-through;text-decoration-color:var(--flesh)}
+.step.kind-save{background:linear-gradient(90deg,rgba(70,224,201,.08),transparent 70%)}
+.st-head{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:baseline}
+.st-title{font-weight:600}
+.st-body{color:var(--soft);font-size:.95rem;margin-top:3px;max-width:80ch}
+.st-body b{color:var(--ink);font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tag{font:.82rem var(--f-head);padding:1px 9px;border-radius:12px;color:var(--rc,var(--ink));box-shadow:inset 0 0 0 1px var(--rc,var(--rim))}
+.tag.cp{display:inline-flex;gap:5px;align-items:center;padding-left:2px;color:var(--ink);box-shadow:inset 0 0 0 1px var(--rim)}
+.roll{display:inline-flex;align-items:center;gap:5px;font:700 .62rem var(--f-num);letter-spacing:.1em;text-transform:uppercase;padding:2px 8px 2px 3px;border-radius:4px;color:#fff}
+.roll::before{content:"";width:12px;height:13px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:rgba(255,255,255,.85)}
+.roll.missable{background:var(--bad)}.roll.choice{background:var(--maybe);color:#1c1206}.roll.choice::before{background:#1c1206}.roll.save{background:var(--glow);color:#06201c}.roll.save::before{background:#06201c}
+.roll.exploit{background:var(--copper)}
+input[type=checkbox]{-webkit-appearance:none;appearance:none;width:22px;height:25px;margin:2px 3px 0;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:var(--rim);cursor:pointer;position:relative;flex:none;transition:background .15s}
+input[type=checkbox]::after{content:"";position:absolute;inset:2px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:var(--sunk)}
+input[type=checkbox]:checked{background:var(--glow)}
+input[type=checkbox]:checked::after{background:radial-gradient(circle,var(--glow) 0 35%,var(--page) 36%)}
+.notebtn{font:italic .85rem var(--f-ital);background:none;border:0;color:var(--glow);cursor:pointer;padding:0;margin-top:7px}
+select,textarea{font:.95rem var(--f-body);background:var(--sunk);color:var(--ink);border:0;box-shadow:inset 0 0 0 1px var(--rim);border-radius:8px;padding:7px 9px}
+textarea{width:100%;min-height:60px;resize:vertical;margin-top:6px}
+.comps{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.comp{display:flex;flex-direction:column;gap:10px}
+.comp::before{content:"";position:absolute;left:0;right:0;top:0;height:80px;border-radius:22px 6px 0 0;background:linear-gradient(180deg,var(--emA),transparent);pointer-events:none}
+.comp>*{position:relative}
+.comp .h{display:flex;gap:12px;align-items:center}
+.comp .h b{font:400 1.4rem var(--f-head);display:block}
+.comp .h small{display:block;font:italic .85rem var(--f-ital);color:var(--soft)}
+.comp dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:.9rem}
+.comp dt{font:700 .62rem var(--f-num);letter-spacing:.12em;color:var(--copper);padding-top:4px;text-transform:uppercase}
+.comp dd{margin:0}
+.comp details{border-top:1px dashed var(--rim);padding-top:6px}
+.comp details>summary{cursor:pointer;display:flex;justify-content:space-between;font:1.02rem var(--f-head);color:var(--flesh);padding:4px 0;list-style:none}
+.comp details>summary::-webkit-details-marker{display:none}
+.qs{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;padding:9px 0;border-bottom:1px dotted var(--rim);font-size:.9rem}
+.qs:last-child{border-bottom:0}
+.qs .a{font:.66rem var(--f-num);color:var(--copper);letter-spacing:.06em}
+.qs p{color:var(--soft);margin-top:2px}
+.qs .pick{margin-top:6px;padding:6px 10px;border-radius:4px 12px 12px 4px;border-left:3px solid var(--rc);background:var(--sunk);color:var(--ink);font-size:.88rem}
+.qs .pick b{font:.62rem var(--f-num);letter-spacing:.08em;color:var(--rc);display:block;text-transform:uppercase}
+.endcard{padding:10px 12px;border-radius:14px 4px 14px 4px;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--rim)}
+.endcard b{font:1.05rem var(--f-head)}
+.endcard p{font-size:.88rem;color:var(--soft)}
+.svtree{overflow-x:auto}
+.svtree svg{display:block;min-width:780px}
+.branches{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.branch label{display:flex;gap:10px;align-items:flex-start;font-size:.95rem;cursor:pointer;padding:4px 0}
+code.sv{font:.76rem var(--f-num);background:#081012;color:#46E0C9;padding:2px 6px;border-radius:4px;box-shadow:inset 0 0 0 1px #244046}
+.btn{font:1rem var(--f-head);border:0;color:#081012;background:linear-gradient(180deg,#7FF0DE,#2FB8A4);border-radius:20px;padding:9px 22px;cursor:pointer;box-shadow:0 0 14px -4px #46E0C9}
+.btn.ghost{background:var(--sunk);color:var(--ink);box-shadow:inset 0 0 0 1px var(--rim)}
+.btn.danger{background:none;color:var(--bad);box-shadow:inset 0 0 0 1px var(--bad)}
+.hero{position:relative;overflow:hidden;border-radius:26px 6px 26px 6px;min-height:250px;display:flex;align-items:flex-end;padding:24px;background:#050b0d;color:#EADFC9;box-shadow:inset 0 0 0 1px #244046}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero .in{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;max-width:620px}
+.hero .k{font:.7rem var(--f-num);letter-spacing:.34em;text-transform:uppercase;color:#46E0C9}
+.hero .t{font:800 clamp(2.2rem,6vw,3.6rem)/.95 var(--f-logo);color:#F3E9D6;text-shadow:0 0 24px rgba(239,124,142,.45),0 2px 0 #000}
+.hero .t em{font-style:normal;color:#EF7C8E}
+.hero p{color:#CFC6B4;max-width:54ch;font:italic 1.05rem var(--f-ital);text-shadow:0 1px 6px #000}
+.party{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.slot{display:flex;flex-direction:column;gap:6px}
+.slot .role{font:.64rem var(--f-num);letter-spacing:.14em;text-transform:uppercase;color:var(--copper)}
+.slot b{font:1.15rem var(--f-head);display:flex;gap:9px;align-items:center}
+.slot p{font-size:.9rem;color:var(--soft)}
+@media (max-width:820px){.grid2{grid-template-columns:minmax(0,1fr)}body{font-size:16px}.brand b{font-size:1.45rem}.comps{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+html{-webkit-tap-highlight-color:transparent}
+body{font-size:16.5px;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+header.ab{position:sticky;top:0;z-index:20;background:var(--page);box-shadow:0 1px 0 var(--rim);display:flex;align-items:center;gap:12px;min-height:58px;padding:calc(env(safe-area-inset-top,0px) + 8px) max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
+header.ab img{width:34px;height:34px;border-radius:9px}
+header.ab h1{font:400 1.35rem var(--f-head);margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header.ab .sync{margin:0;font-size:.62rem;max-width:90px}
+main.anm{padding:16px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
+nav.bn{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--page);box-shadow:0 -1px 0 var(--rim);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+nav.bn button{background:none;border:0;box-shadow:none;display:flex;flex-direction:column;align-items:center;gap:3px;font:.76rem var(--f-head);color:var(--soft);min-height:58px;padding:0;border-radius:0;top:0}
+nav.bn .pi{display:grid;place-items:center;width:58px;height:32px;border-radius:16px}
+nav.bn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;margin:0}
+nav.bn button[aria-selected="true"]{color:var(--ink)}
+nav.bn button[aria-selected="true"] .pi{background:var(--sunk);box-shadow:inset 0 0 0 1px var(--flesh),0 0 12px -4px var(--flesh)}
+.morelist{display:flex;flex-direction:column;overflow:hidden}
+.morerow{display:flex;align-items:center;gap:14px;min-height:68px;background:none;border:0;border-bottom:1px dashed var(--rim);padding:10px 4px;text-align:left;color:var(--ink);font:1.15rem var(--f-head);width:100%;cursor:pointer}
+.morerow:last-child{border-bottom:0}.morerow:active{background:var(--sunk)}
+.morerow svg{width:22px;height:22px;fill:none;stroke:var(--flesh);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.step{grid-template-columns:34px minmax(0,1fr);padding:14px}
+input[type=checkbox]{width:26px;height:29px}
+.chip{min-height:38px}
+.filters{flex-wrap:nowrap;overflow-x:auto;margin-inline:-16px;padding:0 16px 4px;scrollbar-width:none}.filters::-webkit-scrollbar{display:none}.chip{flex:none}
+select,.btn{min-height:44px}
+.comps,.routes,.party,.branches{grid-template-columns:minmax(0,1fr)!important}
+
+#cover{position:fixed;inset:0;z-index:100;background:#03080a;color:#EADFC9;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;transition:opacity .7s,transform .7s}
+#cover.out{opacity:0;transform:scale(1.05);pointer-events:none}
+#cover canvas{position:absolute;inset:0;width:100%;height:100%}
+#cover .vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,transparent 30%,rgba(2,6,8,.85) 100%);pointer-events:none}
+.cv{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:24px 20px;max-width:720px;margin-top:18vh}
+.cv-k{font:.72rem "Space Mono",monospace;letter-spacing:.38em;text-transform:uppercase;color:#46E0C9}
+.cv-t{font:800 clamp(3rem,11vw,6rem)/.9 "Grenze Gotisch",Georgia,serif;margin:0;color:#F3E9D6;text-shadow:0 0 30px rgba(239,124,142,.55),0 3px 0 #000}
+.cv-t em{font-style:normal;color:#EF7C8E}
+.cv-s{font:italic 1.1rem/1.45 "IM Fell English",Georgia,serif;color:#CFC6B4;max-width:44ch;text-shadow:0 1px 8px #000}
+.cv-btn{margin-top:16px;display:inline-flex;align-items:center;gap:14px;border:0;cursor:pointer;padding:15px 34px;border-radius:40px;font:1.3rem "IM Fell English SC",Georgia,serif;letter-spacing:.06em;color:#03201c;background:radial-gradient(120% 160% at 50% 0%,#9CF7E8,#2FB8A4 60%,#18806f);box-shadow:0 0 0 2px #081012,0 0 0 3.5px #EF7C8E,0 0 34px -4px #46E0C9;position:relative;-webkit-tap-highlight-color:transparent}
+.cv-btn i{width:14px;height:16px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#081012}
+.cv-btn::after{content:"";position:absolute;inset:-14px;border-radius:50px;background:radial-gradient(ellipse,rgba(70,224,201,.35),transparent 70%);z-index:-1;animation:cvP 2.6s ease-in-out infinite}
+.cv-btn:active{transform:scale(.97)}.cv-btn:focus{outline:none}.cv-btn:focus-visible{box-shadow:0 0 0 2px #081012,0 0 0 3.5px #F3E9D6,0 0 34px -2px #46E0C9}
+.cv-c{font:.8rem "Space Mono",monospace;color:#94A7A6;min-height:1.2em}
+.cv-f{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;font:italic .78rem "IM Fell English",serif;color:rgba(234,223,201,.45);z-index:2}
+@keyframes cvP{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes cvIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.cv>*{animation:cvIn .9s ease both}.cv>*:nth-child(2){animation-delay:.15s}.cv>*:nth-child(3){animation-delay:.3s}.cv>*:nth-child(4){animation-delay:.5s}
+@media (prefers-reduced-motion:reduce){.cv>*,.cv-btn::after{animation:none}}
+</style></head><body><div id="cover" role="dialog" aria-label="Capa do Grimório do Girino"><canvas id="cvc" aria-hidden="true"></canvas><div class="vig"></div>
+<div class="cv"><div class="cv-k">Baldur's Gate · O Absoluto chama</div><h1 class="cv-t">Grimório do<br><em>Girino</em></h1><p class="cv-s">Cinco caminhos, todas as origens e cada companheiro que o destino permite levar até o Cérebro Ancião.</p><button class="cv-btn" id="cv-enter" type="button"><i></i>Abrir o Grimório<i></i></button><div class="cv-c" id="cv-c"></div></div>
+<div class="cv-f">Guia não oficial para Baldur's Gate 3</div></div>
+<header class="ab"><img src="icon-192.png" alt=""><h1 id="abt">Painel</h1><span class="sync" id="sync">…</span></header>
+<div id="tabs" hidden></div><main class="anm" id="panels"></main>
+<nav class="bn" aria-label="Navegação principal"><button role="tab" data-tab="painel" aria-selected="true"><span class="pi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span>Painel</button><button role="tab" data-tab="roteiro" aria-selected="false"><span class="pi"><svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M9 9h7M9 13h7M9 17h4"/></svg></span>Roteiro</button><button role="tab" data-tab="aliados" aria-selected="false"><span class="pi"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.6 3.2-5.5 6.5-5.5s6 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.8.8 2.8 2.6 3 5.2"/></svg></span>Companheiros</button><button role="tab" data-tab="desfechos" aria-selected="false"><span class="pi"><svg viewBox="0 0 24 24"><path d="M12 2c3 4 6 6 6 10a6 6 0 0 1-12 0c0-4 3-6 6-10z"/><path d="M12 22v-6M9 19l3-3 3 3"/></svg></span>Desfechos</button><button role="tab" data-tab="mais" id="morebtn" aria-selected="false"><span class="pi"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span>Mais</button></nav>
+<script>const DEFAULT_THEME="dark";const MORE_TABS=["origens", "rotas", "finais", "romances", "equipe", "saves", "dados"];const TITLES={"painel": "Painel", "origens": "Origens", "rotas": "Rotas", "roteiro": "Roteiro", "aliados": "Companheiros", "finais": "Finais", "desfechos": "Desfechos", "romances": "Romances", "equipe": "Equipe", "saves": "Saves", "dados": "Backup"};
+function platformInit(){const p=document.getElementById("panels");const sec=document.createElement("section");sec.setAttribute("role","tabpanel");sec.id="mais";sec.hidden=true;sec.innerHTML=`<div class="page morelist"><button class="morerow" data-tab="origens"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/><path d="M17 3l1.5 1.5L21 3"/></svg>Origens</button><button class="morerow" data-tab="rotas"><svg viewBox="0 0 24 24"><path d="M4 20c4-8 12-4 16-16"/><circle cx="4" cy="20" r="2"/><circle cx="20" cy="4" r="2"/></svg>Rotas</button><button class="morerow" data-tab="finais"><svg viewBox="0 0 24 24"><path d="M6 3h12v6a6 6 0 0 1-12 0z"/><path d="M12 15v4M8 21h8"/></svg>Finais</button><button class="morerow" data-tab="romances"><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-8.8-9.4C2.3 7.2 4.4 4.5 7.3 4.5c1.9 0 3.4 1.1 4.7 2.9 1.3-1.8 2.8-2.9 4.7-2.9 2.9 0 5 2.7 4.1 6.1C19.5 15.4 12 20 12 20z"/></svg>Romances</button><button class="morerow" data-tab="equipe"><svg viewBox="0 0 24 24"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 2v20M3 7l9 5 9-5"/></svg>Equipe</button><button class="morerow" data-tab="saves"><svg viewBox="0 0 24 24"><circle cx="6" cy="5" r="2.5"/><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="7" r="2.5"/><path d="M6 7.5v9M18 9.5c0 5-6 4.5-11 7.5"/></svg>Saves</button><button class="morerow" data-tab="dados"><svg viewBox="0 0 24 24"><path d="M20.5 15v3.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V15"/><path d="M7.5 10.5 12 15l4.5-4.5M12 15V3.5"/></svg>Backup</button></div>`;p.appendChild(sec);
+ const upd=()=>{document.getElementById("abt").textContent=TITLES[CUR]||"Mais";document.getElementById("morebtn").setAttribute("aria-selected",(CUR==="mais"||MORE_TABS.includes(CUR))?"true":"false")};const _s=showTab;showTab=function(t){_s(t);upd()};upd()}
+window.appBack=function(){if(window.coverOpen)return false;if(MORE_TABS.includes(CUR)){showTab("mais");return true}if(CUR!=="painel"){showTab("painel");return true}return false};
+if("serviceWorker" in navigator&&/^https?:/.test(location.protocol)){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+
+const TABS=[["painel","Painel",'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>'],["origens","Origens",'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/><path d="M17 3l1.5 1.5L21 3"/>'],["rotas","Rotas",'<path d="M4 20c4-8 12-4 16-16"/><circle cx="4" cy="20" r="2"/><circle cx="20" cy="4" r="2"/>'],["roteiro","Roteiro",'<path d="M5 3h11l3 3v15H5z"/><path d="M9 9h7M9 13h7M9 17h4"/>'],["aliados","Companheiros",'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.6 3.2-5.5 6.5-5.5s6 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.8.8 2.8 2.6 3 5.2"/>'],["finais","Finais",'<path d="M6 3h12v6a6 6 0 0 1-12 0z"/><path d="M12 15v4M8 21h8"/>'],["desfechos","Desfechos",'<path d="M12 2c3 4 6 6 6 10a6 6 0 0 1-12 0c0-4 3-6 6-10z"/><path d="M12 22v-6M9 19l3-3 3 3"/>'],["romances","Romances",'<path d="M12 20s-7.5-4.6-8.8-9.4C2.3 7.2 4.4 4.5 7.3 4.5c1.9 0 3.4 1.1 4.7 2.9 1.3-1.8 2.8-2.9 4.7-2.9 2.9 0 5 2.7 4.1 6.1C19.5 15.4 12 20 12 20z"/>'],["equipe","Equipe",'<path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 2v20M3 7l9 5 9-5"/>'],["saves","Saves",'<circle cx="6" cy="5" r="2.5"/><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="7" r="2.5"/><path d="M6 7.5v9M18 9.5c0 5-6 4.5-11 7.5"/>'],["dados","Backup",'<path d="M20.5 15v3.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V15"/><path d="M7.5 10.5 12 15l4.5-4.5M12 15V3.5"/>']];
+document.getElementById("tabs").innerHTML=TABS.map((t,i)=>`<button role="tab" data-tab="${t[0]}" aria-selected="${i===0}"><svg viewBox="0 0 24 24" aria-hidden="true">${t[2]}</svg>${t[1]}</button>`).join("");
+document.getElementById("panels").innerHTML=TABS.map((t,i)=>`<section role="tabpanel" id="${t[0]}"${i?" hidden":""}></section>`).join("");
+const CURL='<svg viewBox="0 0 42 18" aria-hidden="true"><path d="M2 9h22c6 0 9-3 9-5s-2-3-4-2-2 4 1 5 9 0 10-3"/></svg>';
+const H2=t=>`<h2>${t}${CURL}</h2>`;
+
+const ROUTES={
+  H:{n:"Heroica",camp:"Campanha 1 · Tav",c:"--r-h",ic:"sun",d:"Salva o Bosque, protege a Last Light e resolve cada arco pelo lado mais altruísta. Junta os 10 companheiros, com Minthara pelo nocaute."},
+  M:{n:"Meio-termo",camp:"Campanha 1 · Tav",c:"--r-m",ic:"scale",d:"Mesma linha da Heroica até o fim do Ato 2. Nos arcos pessoais, escolhe saídas pragmáticas que não custam nenhum aliado."},
+  V:{n:"Maligna",camp:"Campanha 1 · Tav",c:"--r-v",ic:"skull",d:"Ataca o Bosque com Minthara e serve ao Absoluto até onde convém. Perde Wyll, Karlach e Halsin, salvo o macete dos cadáveres."},
+  R:{n:"Urge Redimida",camp:"Campanha 2 · Dark Urge",c:"--r-r",ic:"tear",d:"A Dark Urge resiste a Bhaal em cada provação e recusa o título no templo. Pode reunir os 10 companheiros."},
+  D:{n:"Urge Devota",camp:"Campanha 2 · Dark Urge",c:"--r-d",ic:"dagger",d:"A Dark Urge aceita ser a Escolhida de Bhaal. Jaheira e Minsc se perdem; Wyll, Gale e Karlach dependem de condições."}
+};
+const RK=Object.keys(ROUTES);
+const ACTS=[{id:"pro",n:"Prólogo",s:"A nautiloide"},{id:"a1",n:"Ato 1",s:"Bosque, acampamento goblin e Subterrâneo"},{id:"a2",n:"Ato 2",s:"Terras Amaldiçoadas pela Sombra"},{id:"a3",n:"Ato 3",s:"Rivington e Baldur's Gate"},{id:"fim",n:"Final",s:"O Cérebro Ancião"}];
+const ALL=RK, TAV=["H","M","V"], DU=["R","D"];
+const STEPS=[
+ {id:"pr1",a:"pro",k:"info",r:ALL,t:"Libertar Shadowheart da cápsula",d:"Ajude-a a sair da cápsula na nautiloide. Ela entra cedo e você não precisa procurá-la depois.",c:["Shadowheart"]},
+ {id:"pr2",a:"pro",k:"info",r:ALL,t:"Lae'zel como aliada temporária",d:"Ela se junta na parte danificada da nave e some ao fim do prólogo; você a reencontra no Ato 1.",c:["Laezel"]},
+ {id:"pr3",a:"pro",k:"save",r:ALL,t:"Duas campanhas, dois personagens",d:"A Dark Urge é uma origem escolhida na criação. Crie um <b>Tav</b> para a Campanha 1 (Heroica, Meio-termo, Maligna) e uma <b>Dark Urge</b> para a Campanha 2 (Redimida, Devota)."},
+ {id:"a1a",a:"a1",k:"missable",r:ALL,t:"Astarion na praia: não o empale",d:"Quando ele revelar ser cria de vampiro, não o mate nem o mande embora.",c:["Astarion"]},
+ {id:"a1b",a:"a1",k:"missable",r:ALL,t:"Gale no Círculo Rúnico",d:"Tire Gale do selo; falhar duas vezes no teste trava o recrutamento. Quando ele pedir itens mágicos, não recuse várias vezes. <b>Dark Urge:</b> não arranque a mão dele.",c:["Gale"]},
+ {id:"a1c",a:"a1",k:"info",r:ALL,t:"Lae'zel na jaula dos tieflings",d:"Ao norte do waypoint Roadside Cliffs. Liberte-a e recrute.",c:["Laezel"]},
+ {id:"a1d",a:"a1",k:"missable",r:ALL,t:"Shadowheart contra Lae'zel no acampamento",d:"Quando uma tentar matar a outra, intervenha e passe no teste para acalmar a briga. Ficar do lado de Shadowheart ou não fazer nada mata Lae'zel.",c:["Shadowheart","Laezel"]},
+ {id:"a1e",a:"a1",k:"info",r:["H","M","R","D"],t:"Defender o portão do Bosque",d:"Lute contra o ataque goblin no portão e converse com Wyll dentro do Bosque.",c:["Wyll"]},
+ {id:"a1f",a:"a1",k:"missable",r:["H","M","R","D"],t:"Hunt the Devil: lado de Karlach",d:"Siga o rastro de sangue no Risen Road até Karlach e fique do lado dela contra Anders. Resolva antes de ir para o Ato 2.",c:["Karlach"]},
+ {id:"a1g",a:"a1",k:"missable",r:ALL,t:"Wyll confronta Karlach",d:"Use a visão compartilhada para convencer Wyll a desistir. Não ataque nenhum dos dois.",c:["Wyll","Karlach"]},
+ {id:"a1h",a:"a1",k:"missable",r:ALL,t:"Gandrel, o caçador Gur",d:"Não entregue Astarion nem diga que ele está no acampamento.",c:["Astarion"]},
+ {id:"a1q",a:"a1",k:"info",r:ALL,t:"Dammon e o primeiro Ferro Infernal",d:"Leve Ferro Infernal a Dammon no Bosque. Ele dá a primeira melhoria do coração de Karlach. Dammon precisa sobreviver ao Ato 1.",c:["Karlach"]},
+ {id:"a1s",a:"a1",k:"info",r:ALL,t:"Orbe de Gale e Elminster",d:"Dê os três itens mágicos que Gale pede. Ele revela a orbe de Netheril e Elminster chega com a proposta de Mystra.",c:["Gale"]},
+ {id:"a1i",a:"a1",k:"save",r:TAV,t:"SAVE: antes do acampamento goblin",d:"<code class='sv'>T-A1-GOBLINS</code>. Daqui saem a linha boa (Heroica e Meio-termo) e a Maligna."},
+ {id:"a1j",a:"a1",k:"info",r:["H","M","R","D"],t:"Libertar Halsin e salvar o Bosque",d:"Halsin precisa sobreviver a três missões: Defeat the Goblins, Rescue the Druid Halsin e Save the First Druid.",c:["Halsin"]},
+ {id:"a1k",a:"a1",k:"missable",r:["H","M","R","D"],t:"Minthara: nocaute sem conversar",d:"<b>Não fale com ela.</b> Ative os ataques não letais e derrube Minthara. Com os outros líderes goblins mortos, ela vai a Moonrise Towers para ser julgada e pode ser resgatada no Ato 2.",c:["Minthara"]},
+ {id:"a1r",a:"a1",k:"choice",r:["H","M","R","D"],t:"Festa dos tieflings: romances",d:"Na celebração depois de salvar o Bosque, o jogo libera os romances. Inicie até dois romances antes do descanso longo da festa. Veja a aba Romances."},
+ {id:"a1l",a:"a1",k:"choice",r:["V"],t:"Atacar o Bosque com Minthara",d:"Fale com Minthara, revele o Bosque e participe do ataque. Minthara entra e dá a Spider's Lyre. Wyll, Karlach e Halsin saem. Gale exige um teste de Intuição ou Enganação para ficar.",c:["Minthara","Gale"]},
+ {id:"a1m",a:"a1",k:"exploit",r:["V"],t:"Macete: guardar Wyll e Karlach",d:"Mate os dois antes da batalha e guarde os cadáveres no inventário de outro membro. Depois do ataque, ressuscite-os; funciona com aprovação acima de −50. Não é o comportamento pretendido, então salve antes.",c:["Wyll","Karlach"]},
+ {id:"a1n",a:"a1",k:"missable",r:ALL,t:"Creche githyanki",d:"Deixe Lae'zel usar o Zaith'isk com o diálogo certo e não entregue o Artefato a W'wargaz. Resolva Find the Githyanki Crèche antes do Ato 2.",c:["Laezel"]},
+ {id:"a1o",a:"a1",k:"missable",r:ALL,t:"Patrulha githyanki na Mountain Pass",d:"Converse antes de atacar. Atacar primeiro mata Lae'zel.",c:["Laezel"]},
+ {id:"a1p",a:"a1",k:"info",r:DU,t:"Alfira não pode ser salva",d:"Na Campanha 2, a Dark Urge mata Alfira numa visita ao acampamento. É inevitável; se ela não estiver disponível, a vítima é Quil. Depois, Sceleritas Fel entrega o Deathstalker Mantle."},
+ {id:"a2a",a:"a2",k:"missable",r:["H","M","R","D"],t:"Lift the Shadow Curse até o fim",d:"Proteja o portal enquanto Halsin busca Thaniel; se ele fechar, Halsin some. Reúna Thaniel e Oliver e conclua a missão antes de sair das Terras.",c:["Halsin"]},
+ {id:"a2b",a:"a2",k:"choice",r:ALL,t:"Proteger Isobel na Last Light",d:"Isobel viva mantém Jaheira e, depois, Minsc. <b>Maligna:</b> recuse a ordem de matá-la. <b>Devota:</b> matá-la dá a forma de Slayer, mas custa Jaheira.",c:["Jaheira","Minsc"]},
+ {id:"a2c",a:"a2",k:"missable",r:DU,t:"Dark Urge: o assassinato no acampamento",d:"Se Isobel foi poupada, a Urge tenta matar o companheiro do romance ou o de maior aprovação. Para evitar, <b>não faça descanso longo</b> até sair das Terras, ou passe nos testes de Sabedoria (CD 14 e depois dois de CD 18)."},
+ {id:"a2j",a:"a2",k:"info",r:ALL,t:"Dammon na Last Light: segundo Ferro Infernal",d:"A segunda melhoria, Heart Ablaze, permite que Karlach toque os outros. Ela também revela que o coração não sobrevive fora dos Infernos.",c:["Karlach"]},
+ {id:"a2k",a:"a2",k:"info",r:ALL,t:"Raphael e Yurgir",d:"Raphael pede a morte de Yurgir em troca de interpretar as cicatrizes de Astarion. Cumprir revela o contrato com Mefistófeles.",c:["Astarion"]},
+ {id:"a2d",a:"a2",k:"info",r:["H","M","R","D"],t:"Resgatar Minthara na prisão de Moonrise",d:"Salve-a dos interrogadores gnomos e leve-a até a saída. Ela vira companheira no acampamento.",c:["Minthara"]},
+ {id:"a2e",a:"a2",k:"missable",r:ALL,t:"Gauntlet of Shar: leve a Lança da Noite",d:"Não entre na Shadowfell sem a lança e sem Shadowheart. Não entregue Nightsong a Balthazar.",c:["Shadowheart"]},
+ {id:"a2f",a:"a2",k:"info",r:["H","M","R","V"],t:"Jaheira na invasão de Moonrise",d:"Ela acompanha o grupo e vira companheira permanente depois da primeira luta contra Ketheric.",c:["Jaheira"]},
+ {id:"a2l",a:"a2",k:"choice",r:ALL,t:"Experimento de Balthazar (Gale)",d:"Em Moonrise, Gale estuda a Shadow Lantern. Destruir os selos agrada Mystra; deixá-lo terminar abre o lado ambicioso.",c:["Gale"]},
+ {id:"a2g",a:"a2",k:"missable",r:ALL,t:"Gale e Elminster",d:"Não ignore nem derrote Elminster, ou Gale vai embora depois de Ketheric. Na colônia, convença-o a não detonar a orbe.",c:["Gale"]},
+ {id:"a2h",a:"a2",k:"missable",r:ALL,t:"Mizora na colônia",d:"Liberte Mizora do casulo. Matá-la mata Wyll; deixá-la faz Wyll ir embora.",c:["Wyll"]},
+ {id:"a2i",a:"a2",k:"save",r:ALL,t:"SAVE: antes de partir para Baldur's Gate",d:"<code class='sv'>A2-FIM</code>. Na Campanha 1, daqui a Heroica e o Meio-termo se separam."},
+ {id:"a3a",a:"a3",k:"missable",r:["H","M","R","V"],t:"The High Harper: Minsc",d:"Danthelon's Dancing Axe, ninho de doppelgangers, Counting House e por fim a Abandoned Cistern nos esgotos. O <b>golpe final em Minsc precisa ser não letal</b>. Depois convença o Imperador (História ou Intimidação, CD 15).",c:["Minsc","Jaheira"]},
+ {id:"a3b",a:"a3",k:"missable",r:ALL,t:"Orin sequestra um companheiro",d:"Resgate a vítima a tempo. Se Lae'zel estiver morta, no romance ou no grupo ativo no primeiro descanso na Lower City, Orin pode levar Halsin e assumir a forma dele."},
+ {id:"a3c",a:"a3",k:"missable",r:ALL,t:"Tribunal de Sarevok",d:"Não sacrifique Jaheira nem Minsc ao Tribunal.",c:["Jaheira","Minsc"]},
+ {id:"a3d",a:"a3",k:"missable",r:ALL,t:"Filhos de Jaheira e Ulder Ravengard",d:"Não ataque os filhos de Jaheira. Resgate Ulder Ravengard e não o mate no Iron Throne.",c:["Jaheira","Wyll"]},
+ {id:"a3h",a:"a3",k:"missable",r:ALL,t:"Ritual de Cazador",d:"Na emboscada da Lower City, se Astarion cair, ele é levado ao palácio. Na masmorra, decida com ele o ritual (veja o arco).",c:["Astarion"]},
+ {id:"a3i",a:"a3",k:"choice",r:ALL,t:"Gortash: aliança ou ataque",d:"Em Wyrm's Rock, acalme Karlach antes de atacar ou de se aliar, ou os Steel Watchers a jogam na prisão.",c:["Karlach"]},
+ {id:"a3z",a:"a3",k:"save",r:ALL,t:"SAVE: antes do Girino Astral",d:"<code class='sv'>A3-GIRINO</code>. O Imperador entrega o Girino Astral no começo do Ato 3. Consumi-lo é permanente e abre a rota especial Ilitídeo Ascendido (aba Desfechos)."},
+ {id:"a3e",a:"a3",k:"save",r:DU,t:"SAVE: antes do templo de Bhaal",d:"<code class='sv'>U-A3-TEMPLO</code>. Daqui saem a Redimida e a Devota."},
+ {id:"a3f",a:"a3",k:"choice",r:["R"],t:"Redimida: recusar Bhaal",d:"Depois de derrotar Orin, recuse ser a Escolhida. Bhaal drena seu sangue e Withers ressuscita você. O resto segue como numa campanha normal."},
+ {id:"a3g",a:"a3",k:"choice",r:["D"],t:"Devota: aceitar Bhaal",d:"Jaheira embosca o grupo na saída do templo; a luta é inevitável. Wyll morre se Jaheira estiver viva; Gale morre abaixo de 20 de aprovação e Karlach abaixo de 40.",c:["Jaheira","Minsc","Wyll","Gale","Karlach"]},
+
+ {id:"o1",a:"a1",k:"missable",r:TAV,o:"Astarion",t:"Astarion (origem): morder com cuidado",d:"Salve antes de cada mordida num companheiro. Falhar o teste de Sabedoria pode matá-lo para sempre. Não morda Karlach.",c:["Astarion"]},
+ {id:"o2",a:"a1",k:"missable",r:TAV,o:"Shadowheart",t:"Shadowheart (origem): paz com Lae'zel",d:"Quando Lae'zel exigir respostas sobre o Artefato, não a ataque nem a deixe levá-lo. Atacar ou ceder mata Lae'zel.",c:["Laezel"]},
+ {id:"o3",a:"a1",k:"missable",r:TAV,o:"Gale",t:"Gale (origem): Fome Arcana",d:"Consuma itens mágicos baratos sempre que a fome subir. No Ato 2, o estágio Grave sem alimento encerra o jogo.",c:["Gale"]},
+ {id:"o4",a:"pro",k:"info",r:TAV,o:"Laezel",t:"Lae'zel (origem): Losiir",d:"Losiir é a aliada temporária na nautiloide e morre na queda, sem como reviver."},
+ {id:"o5",a:"a1",k:"choice",r:TAV,o:"Wyll",t:"Wyll (origem): poupar Karlach",d:"Poupe Karlach contra a ordem de Mizora para manter Karlach no grupo. O castigo é a aparência de demônio.",c:["Karlach"]},
+ {id:"o6",a:"a2",k:"choice",r:TAV,o:"Gale",t:"Gale (origem): Shadow Weave em Reithwin",d:"Purificar o cadáver dá Mystra's Blessing; absorver dá uma passiva e um espaço de magia de sombra. As opções se excluem.",c:["Gale"]},
+ {id:"o7",a:"a2",k:"missable",r:TAV,o:"Astarion",t:"Astarion (origem): cicatrizes a Raphael",d:"Mostre as cicatrizes a Raphael e passe nos testes de Persuasão e Intuição, ou o acordo de Yurgir se perde.",c:["Astarion"]},
+ {id:"fa",a:"fim",k:"save",r:ALL,t:"SAVE: antes do Cérebro Ancião",d:"<code class='sv'>[rota]-FINAL</code>. Daqui saem as variações de final de cada rota: Imperador, Orpheus ou o Cérebro."},
+ {id:"fb",a:"fim",k:"choice",r:ALL,t:"Quem vira devorador de mentes",d:"Karlach pode se oferecer para virar ilitídeo; Orpheus também, se libertado. Decida conforme o final planejado para Karlach e Lae'zel."}
+];
+const ICON={
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+ scale:'<path d="M12 3v18M7 21h10M4 7h16"/><path d="M4 7l-2 6a3 3 0 0 0 4 0zM20 7l-2 6a3 3 0 0 0 4 0z"/>',
+ skull:'<path d="M5 11a7 7 0 0 1 14 0v3l-2 1v3H7v-3l-2-1z"/><circle cx="9.5" cy="11.5" r="1.5"/><circle cx="14.5" cy="11.5" r="1.5"/>',
+ tear:'<path d="M12 3c3 5 6 8 6 11a6 6 0 0 1-12 0c0-3 3-6 6-11z"/><path d="M9 15a3 3 0 0 0 3 3"/>',
+ dagger:'<path d="M12 2l2 4v9h-4V6z"/><path d="M7 15h10M12 15v4"/><circle cx="12" cy="21" r="1.2"/>',
+ moon:'<path d="M15 3a8 8 0 1 0 6 12 6.5 6.5 0 0 1-6-12z"/>',
+ fang:'<path d="M4 6c4 2 12 2 16 0"/><path d="M8 7l1.5 8L11 7M13 7l1.5 8L16 7"/>',
+ orb:'<circle cx="12" cy="12" r="7"/><path d="M5.5 9c4 2 9 2 13 0M5.5 15c4-2 9-2 13 0"/><circle cx="12" cy="12" r="1.5"/>',
+ blade:'<path d="M5 19L18 6l1-3-3 1L3 17zM14 10l3 3"/>',
+ eye:'<path d="M2 12c3-5 7-7 10-7s7 2 10 7c-3 5-7 7-10 7s-7-2-10-7z"/><circle cx="12" cy="12" r="3"/>',
+ flame:'<path d="M12 22c-4 0-7-3-7-7 0-4 3-6 4-10 2 2 3 3 3 6 1-1 2-2 2-4 3 2 5 5 5 8 0 4-3 7-7 7z"/>',
+ leaf:'<path d="M5 19C5 9 11 4 20 4c0 9-5 15-15 15z"/><path d="M5 19L14 10"/>',
+ spider:'<circle cx="12" cy="12" r="3"/><path d="M12 9V6M9 11L4 7M15 11l5-4M9 13l-5 3M15 13l5 3M10 15l-3 5M14 15l3 5"/>',
+ oak:'<path d="M12 21v-7"/><path d="M12 14c-5 0-7-3-7-6 2 0 3-2 5-2 0-2 2-3 2-3s2 1 2 3c2 0 3 2 5 2 0 3-2 6-7 6z"/>',
+ paw:'<circle cx="7" cy="9" r="1.8"/><circle cx="12" cy="7" r="1.8"/><circle cx="17" cy="9" r="1.8"/><path d="M8 16c0-3 2-5 4-5s4 2 4 5-2 4-4 4-4-1-4-4z"/>',
+ tav:'<path d="M12 2l3 6 6 1-4.5 4 1 6.5L12 16l-5.5 3.5 1-6.5L3 9l6-1z"/>'
+};
+function port(ic,color,sm){return `<span class="port${sm?" sm":""}" style="--em:${color}" aria-hidden="true"><svg viewBox="0 0 24 24">${ICON[ic]}</svg></span>`}
+function hexA(h,a){const n=parseInt(h.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`}
+const COMPS=[
+ {k:"Shadowheart",n:"Shadowheart",cls:"Clériga · meio-elfa",em:"#B9A7FF",ic:"moon",j:"Prólogo (cápsula) ou Ato 1",quest:"Daughter of Darkness",
+  m:{H:["ok"],M:["ok"],V:["ok"],R:["ok"],D:["ok"]},
+  loss:"Ficar do lado dela contra Lae'zel adormecida; entrar na Shadowfell sem a Lança da Noite; entregar Nightsong a Balthazar; atacá-la depois de recusar a cruzada contra Aylin.",
+  q:[{a:"Ato 1",t:"Lae'zel e o Artefato",d:"Lae'zel a confronta sobre o Artefato. Acalme a briga com um teste."},
+     {a:"Ato 1",t:"The Chosen of Shar",d:"Ela fala dos Dark Justiciars; memórias do lobo e de Rennald (A Familiar Face) aparecem."},
+     {a:"Ato 2",t:"Gauntlet of Shar",d:"Provações no Grand Mausoleum até a Shadowfell e o confronto com Nightsong.",pick:{H:"Poupar Nightsong: Shadowheart rompe com Shar.",M:"Poupar Nightsong.",V:"Deixá-la matar Nightsong: vira Dark Justiciar.",R:"Poupar Nightsong.",D:"Deixá-la matar Nightsong."}},
+     {a:"Ato 3",t:"Viconia e o Claustro",d:"No Cloister of Sombre Embrace, Viconia oferece um acordo. Recuse e derrote Viconia para abrir o Threshold of Loss.",pick:{H:"Recusar Viconia.",M:"Recusar Viconia.",V:"Recusar Viconia (entregar Shadowheart a ela a tira do grupo).",R:"Recusar Viconia.",D:"Recusar Viconia."}},
+     {a:"Ato 3",t:"Os pais",d:"No Threshold of Loss, decida o destino dos pais.",pick:{H:"Salvá-los: ficam presos à maldição, mas vivos.",M:"Libertá-los da maldição sacrificando-os.",V:"Como Dark Justiciar, matá-los.",R:"Salvá-los.",D:"Matá-los."}}],
+  e:[["Fazenda no interior","Rompeu com Shar e salvou os pais.",["H","R"]],["Aventuras pela Costa da Espada","Rompeu com Shar e perdeu os pais.",["M"]],["Madre Superiora do claustro","Ficou com Shar e lidera o claustro.",["V","D"]]],
+  rom:"Respeite a privacidade e a fé dela, e o foco na cura. Fica mais aberta quando guiada para longe de Shar. Na Madre Superiora, ela encerra o romance com um beijo de despedida."},
+ {k:"Astarion",n:"Astarion",cls:"Ladino · cria de vampiro",em:"#E0405F",ic:"fang",j:"Ato 1, praia",quest:"The Pale Elf",
+  m:{H:["ok"],M:["ok"],V:["ok"],R:["ok"],D:["ok"]},
+  loss:"Empalá-lo; entregá-lo aos Gur; deixar Cazador ascender; interromper o ritual dele.",
+  q:[{a:"Ato 1",t:"A mordida",d:"Depois de algumas noites ele tenta beber seu sangue. Decida como ele vai se alimentar dali em diante."},
+     {a:"Ato 1",t:"Gandrel",d:"Proteja Astarion do caçador Gur."},
+     {a:"Ato 2",t:"As cicatrizes",d:"Com aprovação alta ele mostra as cicatrizes. Raphael pede a morte de Yurgir para interpretá-las."},
+     {a:"Ato 3",t:"Ulma e as crianças Gur",d:"Aceite a oferta de Ulma para salvar as crianças; recusar torna os Gur hostis."},
+     {a:"Ato 3",t:"Palácio de Cazador",d:"Pegue a chave com Godey, o Szarr Family Ring e o Kozakuran Dictionary; desça à masmorra pelo elevador do escritório."},
+     {a:"Ato 3",t:"O ritual",d:"Diante do sarcófago, decida o rito que sacrificaria cerca de 7.000 almas.",pick:{H:"Convencê-lo a não ascender e libertar as crias.",M:"Não ascender; ele lidera as crias no Subterrâneo.",V:"Ajudá-lo a completar o rito.",R:"Convencê-lo a não ascender.",D:"Ajudá-lo a completar o rito."}}],
+  e:[["Cria justiceira","Ritual impedido; volta a temer o sol e caça os culpados.",["H","R"]],["Líder das crias no Subterrâneo","Lidera as crias libertadas, com ou sem você.",["M"]],["Senhor vampiro","Completa o rito e toma o Palácio Szarr.",["V","D"]]],
+  rom:"Cenas no Ato 1, variações no Ato 2 e um teste de amor no Ato 3. O desfecho do romance depende do ritual."},
+ {k:"Gale",n:"Gale",cls:"Mago · humano",em:"#7FB2F5",ic:"orb",j:"Ato 1, Círculo Rúnico",quest:"The Wizard of Waterdeep",
+  m:{H:["ok"],M:["ok"],V:["cond","Teste de Intuição ou Enganação no ataque ao Bosque"],R:["ok"],D:["cond","Aprovação 20+ ao aceitar Bhaal com Jaheira viva"]},
+  loss:"Recusar itens mágicos várias vezes; mandá-lo embora após a revelação; ignorar Elminster; Dark Urge arrancar a mão dele.",
+  q:[{a:"Ato 1",t:"A orbe de Netheril",d:"Dê os três itens mágicos. Elminster traz a proposta de Mystra: redenção em troca da vida dele."},
+     {a:"Ato 1",t:"In Case of Death...",d:"Se Gale morrer, siga a projeção para ganhar um pergaminho de Ressurreição Verdadeira. Três descansos longos com ele morto encerram o jogo."},
+     {a:"Ato 2",t:"Balthazar's Experiment",d:"Shadow Lantern em Moonrise.",pick:{H:"Destruir os selos.",M:"Destruir os selos.",V:"Deixá-lo terminar.",R:"Destruir os selos.",D:"Deixá-lo terminar."}},
+     {a:"Ato 2",t:"A colônia",d:"Convença Gale a não detonar a orbe, ou é fim de jogo."},
+     {a:"Ato 3",t:"A Coroa de Karsus",d:"Sorcerous Sundries: Tolna aponta os Annals of Karsus no cofre. Elminster leva Gale à audiência com Mystra no Stormshore Tabernacle.",pick:{H:"Devolver a orbe a Mystra e aceitar a cura.",M:"Devolver a orbe a Mystra.",V:"Usar a coroa para ascender.",R:"Devolver a orbe a Mystra.",D:"Usar a coroa para ascender."}},
+     {a:"Final",t:"Oferta de sacrifício",d:"No tronco do Cérebro, Gale se oferece para detonar a orbe. Recuse para mantê-lo vivo."}],
+  e:[["Professor Dekarios","Devolve a coroa a Mystra, é curado e ensina na Blackstaff Academy.",["H","M","R"]],["Deus da Ambição","Ascende com a coroa e pode levar o par romântico.",["V","D"]],["Sacrifício de Gale","Detona a orbe no Cérebro.",[]]],
+  rom:"No final Professor ele vira Gale Dekarios; no Deus da Ambição oferece um lugar no reino divino ao par."},
+ {k:"Laezel",n:"Lae'zel",cls:"Guerreira · githyanki",em:"#86C266",ic:"blade",j:"Ato 1, jaula dos tieflings",quest:"The Githyanki Warrior",
+  m:{H:["ok"],M:["ok"],V:["ok"],R:["ok"],D:["ok"]},
+  loss:"Atacar a patrulha githyanki sem conversar; recusar o Zaith'isk; avançar ao Ato 2 sem resolver a creche; atacar Voss depois de rejeitar Vlaakith.",
+  q:[{a:"Ato 1",t:"Mountain Pass",d:"Voss interroga o grupo sobre o Prisma. Converse antes de tudo."},
+     {a:"Ato 1",t:"Creche Y'llek",d:"Zaith'isk, W'wargaz e a ordem de Vlaakith para matar o ocupante do Prisma."},
+     {a:"Ato 2",t:"O Imperador",d:"Dentro do Prisma, o Imperador revela que Orpheus é o prisioneiro."},
+     {a:"Ato 3",t:"Voss e Raphael",d:"Encontro com Voss em Sharess' Caress; Raphael oferece o Orphic Hammer."},
+     {a:"Ato 3",t:"Vlaakith ou Orpheus",d:"Vlaakith volta a comandá-la.",pick:{H:"Rejeitar Vlaakith, aliar-se a Voss e libertar Orpheus.",M:"Rejeitar Vlaakith e ficar em Faerûn.",V:"Permanecer fiel a Vlaakith.",R:"Rejeitar Vlaakith e libertar Orpheus.",D:"Permanecer fiel a Vlaakith."}}],
+  e:[["Guerra contra Vlaakith","Liberta Orpheus e lidera a revolta.",["H","R"]],["Vida em Faerûn","Fica com Orpheus em Faerûn e caça postos leais a Vlaakith.",["M"]],["Ascensão","Fiel, mata Orpheus e é ascendida por Vlaakith.",["V","D"]]],
+  rom:"Começa puramente físico e fica sério quando ela passa a ver você como igual. No final da guerra, o par pode acompanhá-la."},
+ {k:"Wyll",n:"Wyll",cls:"Bruxo · humano",em:"#F2C65A",ic:"eye",j:"Ato 1, Bosque Esmeralda",quest:"The Blade of Frontiers",
+  m:{H:["ok"],M:["ok"],V:["no","Sai no ataque ao Bosque; macete dos cadáveres"],R:["ok"],D:["cond","Morre se Jaheira estiver viva ao aceitar Bhaal"]},
+  loss:"Atacar o Bosque; matar Mizora; deixá-la na colônia; matar Ulder Ravengard.",
+  q:[{a:"Ato 1",t:"Karlach",d:"Mizora marcou Karlach para morrer. Poupe Karlach; Mizora pode transformá-lo em demônio por isso."},
+     {a:"Ato 1",t:"Waukeen's Rest",d:"Resgate Florrick; o Duque foi levado pelos drow para Moonrise."},
+     {a:"Ato 2",t:"Mizora no casulo",d:"Liberte Mizora na colônia e negocie o fim do contrato."},
+     {a:"Ato 3",t:"O acordo de Mizora",d:"Em Wyrm's Rock ela oferece um acordo.",pick:{H:"Romper o pacto e salvar o Duque.",M:"Manter o pacto pela liberdade do Duque.",V:"—",R:"Romper o pacto e salvar o Duque.",D:"Romper o pacto."}},
+     {a:"Ato 3",t:"Wyrmway",d:"As provações de Ansur, em que a criação de Wyll ajuda."},
+     {a:"Ato 3",t:"Proposta do Duque",d:"Aceitar ou recusar ser Grão-Duque.",pick:{H:"Aceitar: Grão-Duque.",M:"Recusar e seguir caçando.",V:"—",R:"Aceitar: Grão-Duque.",D:"Recusar: Lâmina de Avernus."}}],
+  e:[["Grão-Duque de Baldur's Gate","Aceita a proposta do pai.",["H","R"]],["Lâmina das Fronteiras","Não foi transformado e recusou ser Duque.",["M"]],["Lâmina de Avernus","Transformado por Mizora, caça demônios em Avernus.",["D"]]],
+  rom:"Sincero, desaprova encontros casuais, sobretudo com Mizora."},
+ {k:"Karlach",n:"Karlach",cls:"Bárbara · tiefling",em:"#FF7A3A",ic:"flame",j:"Ato 1, Risen Road",quest:"Our Fiery Friend",
+  m:{H:["ok"],M:["ok"],V:["no","Sai no ataque ao Bosque; macete dos cadáveres"],R:["ok"],D:["cond","Aprovação 40+ ao aceitar Bhaal com Jaheira viva"]},
+  loss:"Ficar do lado de Anders; deixar Wyll matá-la; ir ao Ato 2 sem resolver Hunt the Devil; atacar o Bosque.",
+  q:[{a:"Ato 1",t:"Hunt the Devil",d:"Fique com ela contra Anders na Toll House."},
+     {a:"Ato 1",t:"Heart of Iron",d:"Leve Ferro Infernal a Dammon."},
+     {a:"Ato 2",t:"Heart Ablaze",d:"Segunda melhoria na Last Light: ela pode tocar os outros. O coração não sobrevive fora dos Infernos."},
+     {a:"Ato 2",t:"Gortash",d:"Depois de Ketheric, ela revela que Gortash a mandou aos Infernos."},
+     {a:"Ato 3",t:"Wyrm's Rock",d:"Acalme Karlach antes de atacar ou se aliar a Gortash."},
+     {a:"Final",t:"O destino do coração",d:"Decida com ela depois do Cérebro.",pick:{H:"Acompanhá-la a Avernus.",M:"Acompanhá-la a Avernus.",V:"—",R:"Acompanhá-la a Avernus.",D:"Respeitar o desejo dela de ficar."}}],
+  e:[["Retorno a Avernus","Você ou Wyll (como Lâmina de Avernus) a acompanham.",["H","M","R"]],["Um fim flamejante","Fica no plano material e se consome.",["D"]],["Vida de devoradora","Vira ilitídeo e perde a identidade aos poucos.",[]]],
+  rom:"O beijo esperado vem depois da segunda melhoria. Compaixão é o caminho mais fácil."},
+ {k:"Halsin",n:"Halsin",cls:"Druida · elfo",em:"#9BD17A",ic:"leaf",j:"Ato 1, acampamento goblin",quest:"Lift the Shadow Curse",
+  m:{H:["ok"],M:["ok"],V:["no","Nunca entra se o Bosque for atacado"],R:["ok"],D:["ok"]},
+  loss:"Atacar o Bosque; o portal fechar durante o ritual; sair das Terras sem concluir a missão.",
+  q:[{a:"Ato 1",t:"Salvar o Bosque",d:"Halsin vivo em Defeat the Goblins, Rescue the Druid Halsin e Save the First Druid."},
+     {a:"Ato 2",t:"Art Cullagh",d:"A pista de Thaniel vem de Art Cullagh, acordado ou por Speak with Dead."},
+     {a:"Ato 2",t:"O portal",d:"Proteja o portal contra as ondas de sombra."},
+     {a:"Ato 2",t:"Thaniel e Oliver",d:"Reúna as duas metades. Ele vira companheiro permanente se a maldição for desfeita."}],
+  e:[["Pai de uma nova geração","Transforma Moonrise num orfanato em Reithwin.",["H","M","R","D"]]],
+  rom:"Sobretudo no Ato 3. É poliamoroso: aceita dividir com Astarion ou Shadowheart, com consentimento."},
+ {k:"Minthara",n:"Minthara",cls:"Paladina · drow",em:"#C27BFF",ic:"spider",j:"Ato 1 (ataque) ou Ato 2 (prisão)",quest:"Decide Minthara's Fate",
+  m:{H:["cond","Nocaute sem conversar no Ato 1"],M:["cond","Nocaute sem conversar"],V:["ok"],R:["cond","Nocaute sem conversar"],D:["cond","Nocaute sem conversar"]},
+  loss:"Mandá-la embora depois de Ketheric. Na linha boa, conversar com ela no Ato 1 impede o resgate.",
+  q:[{a:"Ato 1",t:"Shattered Sanctum",d:"Linha boa: nocaute não letal. Maligna: ataque ao Bosque.",pick:{H:"Nocaute sem diálogo.",M:"Nocaute sem diálogo.",V:"Aliar-se e atacar o Bosque.",R:"Nocaute sem diálogo.",D:"Nocaute sem diálogo."}},
+     {a:"Ato 2",t:"Prisão de Moonrise",d:"Ketheric a condena. Liberte-a dos gnomos interrogadores e escolte-a."},
+     {a:"Ato 3",t:"Netherstone de Orin",d:"Interesse pessoal: Orin a doutrinou. Ela pode ser uma das vítimas de Orin."}],
+  e:[["Retorno a Menzoberranzan","Funda uma nova casa nobre.",["H","R","D"]],["Liderança em Baldur's Gate","Assume o comando da cidade.",["V","M"]]],
+  rom:"Romanceável depois de recrutada. Na Maligna, há uma noite na comemoração goblin."},
+ {k:"Jaheira",n:"Jaheira",cls:"Druida · meio-elfa",em:"#C9B27A",ic:"oak",j:"Ato 2, Last Light",quest:"The High Harper",
+  m:{H:["ok"],M:["ok"],V:["cond","Não matar Isobel"],R:["ok"],D:["no","Emboscada inevitável ao aceitar Bhaal"]},
+  loss:"Isobel ferida depois de Ketheric fugir; atacar os filhos dela; sacrificá-la ao Tribunal; matar Minsc.",
+  q:[{a:"Ato 2",t:"Defesa da Last Light",d:"Proteja Isobel do sequestro de Marcus."},
+     {a:"Ato 3",t:"Danthelon's Dancing Axe",d:"A chave do esconderijo Harper; os Harpers são doppelgangers."},
+     {a:"Ato 3",t:"Os esgotos",d:"Nocaute em Minsc na Abandoned Cistern."},
+     {a:"Ato 3",t:"Rite of the Timeless Body",d:"No porão secreto da casa de Elerrathin, com Jaheira no grupo.",pick:{H:"Aprovação 60+: ela queima o pergaminho.",M:"Ela guarda o pergaminho.",V:"Ela guarda o pergaminho.",R:"Aprovação 60+.",D:"—"}}],
+  e:[["Aposentadoria","Com 60+ de aprovação, queima o pergaminho e vive com os filhos.",["H","R"]],["Alta Harpista","Guarda o pergaminho e segue protegendo a cidade.",["M","V"]]],
+  rom:"Não é romanceável."},
+ {k:"Minsc",n:"Minsc",cls:"Patrulheiro · humano",em:"#E8A33D",ic:"paw",j:"Ato 3, esgotos da Lower City",quest:"The High Harper",
+  m:{H:["ok"],M:["ok"],V:["cond","Depende de Jaheira"],R:["ok"],D:["no","Perdido com Jaheira"]},
+  loss:"Matá-lo nos esgotos; perder Jaheira; sacrificá-lo ao Tribunal.",
+  q:[{a:"Ato 3",t:"Nocaute e Imperador",d:"Golpe final não letal; depois História ou Intimidação (CD 15) com o Imperador."},
+     {a:"Ato 3",t:"A discussão com Jaheira",d:"Incentive Minsc a confiar mais em Jaheira; muda o jantar do epílogo."}],
+  e:[["Jantar do epílogo","O tom depende da discussão com Jaheira.",["H","M","V","R"]]],
+  rom:"Não é romanceável."}
+];
+
+const PCS={
+ tav:{n:"Tav (personalizado)",ic:"tav",em:"#EADFC9",camp:["H","M","V"],quest:"Sem missão pessoal",sum:"Raça, classe e antecedente livres. Vê a história de cada companheiro de fora e é o único jeito de ter os 10 na Campanha 1.",
+  changes:["Nenhuma missão pessoal própria.","Todos os 10 companheiros recrutáveis.","Melhor escolha para a primeira partida e para o máximo de aliados."],ends:[],warn:[]},
+ urge:{n:"Dark Urge",ic:"dagger",em:"#F0505F",camp:["R","D"],quest:"The Dark Urge",sum:"Raça, classe e aparência livres, mas antecedente fixo (Haunted One). Amnésia e impulsos de Bhaal a cada passo.",
+  changes:["Cenas, monólogo interior e missões exclusivas; cada impulso pode ser aceito ou resistido.","Alfira morre no acampamento (ou Quil).","Assassinato de um companheiro no Ato 2 se Isobel for poupada.","Resolução própria no Ato 3: Orin, Sarevok e o templo de Bhaal."],ends:[["Escolhida de Bhaal","Controla o Cérebro por Bhaal e destrói a cidade."],["Rebelde contra Bhaal","Aceita e depois desobedece; Bhaal destrói a mente dela."],["Redimida","Recusa o título; Withers a ressuscita."]],warn:["Ceder a impulsos cedo pode tirar um companheiro querido para sempre."]},
+ Astarion:{n:"Astarion",ic:"fang",em:"#E0405F",camp:["H","M","V"],quest:"Call of the Blood",sum:"Elfo alto, ladino. Vive a fome e o medo do sol em primeira pessoa e conduz a história de Cazador.",
+  changes:["Mordida de Vampiro desde o início do Ato 1; alimentar-se exige teste de Furtividade.","<b>Risco de perder aliados:</b> falhar o teste de Sabedoria ao morder pode matar o companheiro para sempre.","Não pode combinar alimentação regular com um companheiro.","O sangue de Gale é intragável e ele evita morder Karlach.","Não pode ser entregue a Gandrel, então o acampamento Gur nunca é massacrado no Ato 3.","Pode esconder o vampirismo até o fim do Ato 1; mentir baixa a aprovação (Gale perde 30).","Precisa expor as cicatrizes a Raphael (Persuasão e Intuição) ou perde o acordo de Yurgir.","Pode tentar quebrar o domínio de Cazador com teste de Constituição."],
+  ends:[["Rei Sol","Exclusivo da origem; exige um teste alto de Constituição."],["Ascendente com forma de morcego","Pode criar as próprias crias."]],warn:["Morder companheiros sem salvar antes é o maior risco de perda nesta origem."]},
+ Gale:{n:"Gale",ic:"orb",em:"#7FB2F5",camp:["H","M","V"],quest:"The Wizard of Waterdeep (Origin)",sum:"Humano, mago prodígio. Sabe desde o início que a orbe é magia de Netheril.",
+  changes:["<b>Fome Arcana:</b> condição com estágios; consuma itens mágicos para saciá-la. No estágio Grave, no Ato 2, a fome não atendida encerra o jogo.","Tara aparece no acampamento depois do primeiro descanso longo e dá um Ring of Evasion.","Pode começar romances já no Ato 1.","Em Reithwin, pode purificar um cadáver (Mystra's Blessing) ou absorver a Shadow Weave (passiva e um espaço de magia de sombra); as opções se excluem.","Pode assinar e depois destruir um contrato com Raphael para proteger a coroa."],
+  ends:[["Elísio com Mystra","Devolver a Coroa de Karsus a Mystra leva Gale ao Elísio."],["Deus da Ambição","Coroa na própria cabeça."],["Sacrifício","Detona a orbe para salvar o mundo."]],warn:["Guarde itens mágicos baratos para a Fome Arcana; no Ato 2 ela pode encerrar a partida."]},
+ Karlach:{n:"Karlach",ic:"flame",em:"#FF7A3A",camp:["H","M","V"],quest:"Servant of None",sum:"Tiefling de Zariel, bárbara. O motor infernal no peito comanda a história.",
+  changes:["A sub-missão Forging a Heart substitui The Hellion's Heart.","Cenas exclusivas sobre o serviço forçado no exército de Zariel e os efeitos do motor.","Algumas cenas de interação ficam travadas; outras ganham as memórias dela pelo narrador.","Na Maligna, o ataque ao Bosque não a tira do grupo, porque ela é a protagonista."],
+  ends:[["Retorno a Avernus","Com companhia."],["Fim flamejante","Fica no plano material."],["Devoradora de mentes","Vira ilitídeo."]],warn:["Algumas reações de Wyll na caçada mudam; confirme ao jogar."]},
+ Laezel:{n:"Lae'zel",ic:"blade",em:"#86C266",camp:["H","M","V"],quest:"The Githyanki Warrior (Origin)",sum:"Githyanki, guerreira. Vive por dentro a cultura githyanki e o dilema entre Vlaakith e Orpheus.",
+  changes:["<b>Losiir</b> ocupa o lugar dela como aliada temporária na nautiloide e morre na queda, sem chance de reviver.","Sub-missões The Prince of the Comet e Vlaakith's Will.","Diálogos da creche diferentes dos de um Tav."],
+  ends:[["Lae'zel de Tu'narath","Ascende ao plano astral."],["Revolta com Orpheus","Derruba Vlaakith ao lado dele."],["Rebelião após o sacrifício de Orpheus","Lidera a revolta sozinha."],["Vida em Faerûn","Com ou sem alguém querido."]],warn:[]},
+ Shadowheart:{n:"Shadowheart",ic:"moon",em:"#B9A7FF",camp:["H","M","V"],quest:"Daughter of Darkness (Origin)",sum:"Meio-elfa, clériga de Shar. A amnésia voluntária e as lembranças verdadeiras são vistas por dentro.",
+  changes:["<b>Risco de perder aliados:</b> quando Lae'zel exigir respostas sobre o Artefato, atacá-la ou deixá-la levar o Artefato mata Lae'zel. Busque a paz.","Cenas exclusivas de flashback sobre a perda de memória.","Algumas cenas de interação ficam travadas; outras ganham as memórias dela."],
+  ends:[["Escolhida de Shar","Sacrifica dois estranhos no teste final."],["Rompe com Shar e salva os pais","Recusa o sacrifício."],["Liberta os pais","A pedido deles."]],warn:["A conversa com Lae'zel sobre o Artefato é o ponto de perda desta origem."]},
+ Wyll:{n:"Wyll",ic:"eye",em:"#F2C65A",camp:["H","M","V"],quest:"The Blade of Frontiers (Origin)",sum:"Humano, bruxo de Mizora. Começa caçando Karlach por ordem da patrona.",
+  changes:["Poupar Karlach contra a missão faz Mizora castigá-lo com uma aparência de demônio.","Mizora dá uma rapieira infernal depois de ser resgatada.","Escolha final entre pacto eterno com Mizora e Zariel, que ressuscita o pai, ou romper e deixá-lo morto.","Na Maligna, o ataque ao Bosque não o tira do grupo, porque ele é o protagonista."],
+  ends:[["Grão-Duque Wyll Ravengard","Assume o lugar do pai."],["Lâmina das Fronteiras","Volta a proteger Baldur's Gate."],["Lâmina de Avernus","Caça demônios em Avernus."],["Destino incerto","Abandona os deveres."]],warn:[]}
+};
+const PCK=Object.keys(PCS);
+
+const ALTS=[
+ {id:"ilit",n:"Ilitídeo Ascendido",ic:"orb",em:"#46E0C9",base:["H","M","V","R","D"],kind:"Rota especial",
+  d:"Você abraça o girino: vira semi-ilitídeo com o Girino Astral e, no fim, aceita a ceremorfose completa para vencer o Cérebro.",
+  req:[["Atos 1–2","Consuma pelo menos um girino comum. Sem nenhum consumido, o Girino Astral só pode ser destruído."],["Ato 3","Ajude o Imperador contra a Guarda de Honra de Orpheus no Plano Astral e receba o Girino Astral."],["Ato 3","Consuma o Girino Astral: olhos escuros e veias negras permanentes; ganha Voo, Psionic Overload e outros poderes."],["Final","Aceite virar devorador de mentes para derrotar o Cérebro (conquista Ceremorphosis)."]],
+  eff:["Lae'zel se recusa a ficar com você se você passou pela ceremorfose.","No epílogo, escolha entre liberdade, prisão ou morte.","Na festa do epílogo, falhar um teste de Constituição CD 15 com os companheiros faz Withers encerrar a festa mais cedo."],
+  ends:[["Liberdade","Você vai à festa do epílogo como ilitídeo."],["Prisão","Withers visita você numa prisão."],["Morte","Withers reage no além."]]},
+ {id:"tirano",n:"Senhor do Cérebro",ic:"skull",em:"#A8CF4E",base:["V","M"],kind:"Final de controle",
+  d:"Você toma as Netherstones e passa a comandar o Cérebro Ancião. É o desfecho mais sombrio para um Tav.",
+  req:[["Final","Na escolha final, decida controlar o Cérebro."],["Final","Tome as Netherstones do Imperador ou de Orpheus (Força CD 12)."]],
+  eff:["Não há o epílogo normal com os companheiros.","Conquista Absolute Power Corrupts."],
+  ends:[["Conquista","Os cidadãos escravizados marcham para a guerra."],["Escravidão feliz","Mantém o povo em êxtase erguendo sua estátua."],["Execução em massa","Elimina os dominados."],["Caos","Violência sem sentido pela cidade."],["Remover o girino","Destrói o próprio girino e vai embora, com os companheiros ou sozinho (a versão sozinho chegou no Patch 8)."],["Grande Desígnio","Semi-ilitídeo que passa em Constituição CD 25 transforma Baldur's Gate em devoradores de mentes."]]},
+ {id:"imperador",n:"General do Imperador",ic:"eye",em:"#C27BFF",base:["M","V"],kind:"Final de aliança",
+  d:"Você fica do lado do Imperador até o fim e governa o Cérebro com ele.",
+  req:[["Ato 3","Fique com o Imperador no Plano Astral; Orpheus é consumido."],["Final","Passe em dois testes de Persuasão CD 20 para governar em conjunto."]],
+  eff:["Orpheus é consumido; com Lae'zel fiel a Vlaakith, ela parte num dragão vermelho (Ascensão).","Ficar com o Imperador impede a coroação de origem."],
+  ends:[["General leal","Lidera as invasões do Imperador."],["Traição fracassada","Tentar matar o Imperador falha e força seu suicídio."]]},
+ {id:"coroa",n:"Coroação de origem",ic:"tav",em:"#F2C35A",base:["H","M","V"],kind:"Exige protagonista de origem",
+  d:"Jogando com uma origem, você toma o Cérebro e o final muda conforme o personagem.",
+  req:[["Criação","Escolha uma origem como protagonista (aba Origens)."],["Final","Controle o Cérebro sem ter escolhido o Imperador e sem virar devorador de mentes."]],
+  eff:["Indisponível se você ficou com o Imperador ou passou pela ceremorfose."],
+  ends:[["Astarion · Rei Sol","Governa, mas é consumido pelos vampiros."],["Gale · Fim dos deuses","Destrói os ídolos e planeja acabar com todos os deuses."],["Lae'zel · Deusa-regente","Derruba Vlaakith com um dragão vermelho."],["Karlach · Leve-os ao inferno","Abre portais para Avernus e remove o motor sem morrer."],["Shadowheart · Nova igreja","Acaba com as fés de Shar e Selûne e funda uma nova."],["Wyll · O grande unificador","Transforma os cidadãos em devoradores de mentes."]]},
+ {id:"bhaal",n:"Pecados do Pai",ic:"dagger",em:"#F0505F",base:["D"],kind:"Final da Dark Urge",
+  d:"A Urge Devota reclama o Cérebro em nome de Bhaal.",
+  req:[["Ato 3","Aceite Bhaal no templo (rota Devota)."],["Final","Tome o Cérebro em nome de Bhaal; não há teste de Força."]],
+  eff:["Pode matar os companheiros antes do massacre.","Conquista Sins of the Father."],
+  ends:[["Massacre de Bhaal","A cidade é chacinada e Bhaal anuncia o fim do mundo."],["Desobedecer depois","Bhaal destrói sua mente."]]},
+ {id:"sacr",n:"Sacrifícios no fim",ic:"flame",em:"#FF7A3A",base:["H","M","V","R","D"],kind:"Variações com companheiros",
+  d:"Finais em que um companheiro paga o preço para vencer o Cérebro.",
+  req:[["Final","Do save [rota]-FINAL, aceite a oferta do companheiro."]],
+  eff:["Cada sacrifício tira o companheiro do epílogo normal."],
+  ends:[["Gale detona a orbe","Destrói o Cérebro e morre com ele."],["Karlach ilitídea","Vira devoradora de mentes e perde a identidade aos poucos."],["Orpheus ilitídeo","Pede para ser morto; sem ninguém aceitar, tira a própria vida, a menos que seja convencido."]]},
+ {id:"go",n:"Finais prematuros",ic:"tear",em:"#94A7A6",base:["H","M","V","R","D"],kind:"Curiosidade · game over",
+  d:"Desfechos que encerram a partida antes da hora. Para colecionar, use um save descartável.",
+  req:[["Ato 1","Na praia, ceder ao devorador de mentes moribundo e se inclinar como para um beijo."],["Ato 1","Responder a Philomeen que não liga e que ela pode explodir o barril."],["Ato 1","Todos usarem a Whispering Mask e falharem contra Auntie Ethel."],["Ato 1","Desafiar Vlaakith a provar sua divindade na creche, com Shadowheart presente."],["Ato 2","Detonar a orbe de Gale quando a opção libera."],["Ato 3","Entregar corpo e mente a Haarlep."],["Ato 3","Recusar o acordo de Raphael no Plano Astral."]],
+  eff:["Nenhum avança a campanha; servem só como curiosidade."],ends:[]}
+];
+const PLB={name:"Party Limit Begone",max:16,inst:"Versão independente (recomendada): copie a pasta Mods para a pasta Data do jogo. Se já tiver 4 no grupo, dispense um para aplicar o novo limite. Há também uma versão com Script Extender.",
+ issues:["Reduza o grupo a 4 antes de pegar o barco para Grymforge.","Itens de missão carregados pelo 5º membro em diante podem não ser reconhecidos.","O sono no acampamento pode travar; reduza o grupo a 4 ou fale com Lae'zel com um companheiro acordado.","Alguns eventos fixos esperam 4 membros; dispense os extras ou teleporte para destravar.","Verifique se suas conquistas continuam ativas com mods instalados."]};
+const CMAP={};COMPS.forEach(c=>CMAP[c.k]=c);
+const PARTY={
+ H:[["Comandante","Tav · Paladino (Devoção)","Linha de frente com cura e Carisma alto para os testes de diálogo."],["Cura","Shadowheart · Clériga (Luz)","Controle de área e cura; ao romper com Shar, combina com a rota."],["Dano à distância","Astarion · Ladino","Armadilhas, fechaduras e furtividade."],["Conjuração","Gale · Mago (Evocação)","Dano em área e utilidade."]],
+ M:[["Comandante","Tav · Bardo","Mestre dos testes de diálogo; é a rota com mais conversas decisivas."],["Linha de frente","Lae'zel · Guerreira","Muitos ataques por turno."],["Cura","Shadowheart · Clériga","Suporte."],["Conjuração","Gale · Mago","Área e controle."]],
+ V:[["Comandante","Tav · Paladino (Quebrajuramento)","O juramento se quebra naturalmente nas escolhas malignas."],["Linha de frente","Minthara · Paladina","Dano alto e presença."],["Cura","Shadowheart · Clériga","Fiel a Shar nesta rota."],["Dano","Astarion · Ladino","Ascende no Ato 3."]],
+ R:[["Comandante","Dark Urge · Paladino (Vingança)","Corpo a corpo forte, sem depender da forma de Slayer."],["Linha de frente","Karlach · Bárbara","Dano bruto e resistência."],["Cura","Shadowheart · Clériga","Suporte."],["Conjuração","Gale · Mago","Área e controle."]],
+ D:[["Comandante","Dark Urge · Bárbaro ou Paladino","Aproveita a forma de Slayer no corpo a corpo."],["Linha de frente","Minthara · Paladina","Dano alto."],["Dano","Astarion · Ladino","Ascende no Ato 3."],["Cura","Shadowheart · Clériga","Fiel a Shar."]]
+};
+const ROMPLAN={H:"Karlach",M:"Astarion",V:"Minthara",R:"Shadowheart",D:"Astarion"};
+
+let S={done:{},arcs:{},saves:{},notes:{},filter:"all",hideDone:false,route:"H",rp:{},pc:"tav"};
+let store={ref:null};
+const LKEY="bg3-grimorio-v1";
+function loadLocal(){try{const r=localStorage.getItem(LKEY);if(r)Object.assign(S,JSON.parse(r))}catch(e){}}
+function saveLocal(){try{localStorage.setItem(LKEY,JSON.stringify(S))}catch(e){}}
+let tSave=null;
+function persist(){saveLocal();clearTimeout(tSave);tSave=setTimeout(async()=>{if(store.ref){try{await store.ref.set({state:JSON.stringify(S),at:Date.now()});setSync("Salvo na sua conta")}catch(e){setSync("Salvo neste aparelho")}}else setSync("Salvo neste aparelho")},600)}
+function setSync(t){document.getElementById("sync").textContent=t}
+async function initStore(){
+  loadLocal();renderAll();setSync("Salvo neste aparelho");
+  try{if(!window.claude||!claude.use)return;const [db,user]=await Promise.all([claude.use("db"),claude.use("user")]);if(!db||!user)return;const uid=await user.id();if(!uid)return;
+    store.ref=db.doc("data/users/"+uid+"/bg3");const snap=await store.ref.get();
+    if(snap.exists){try{Object.assign(S,JSON.parse(snap.data().state));saveLocal();renderAll()}catch(e){}}else if(Object.keys(S.done).length){await store.ref.set({state:JSON.stringify(S),at:Date.now()})}
+    setSync("Salvo na sua conta")}catch(e){setSync("Salvo neste aparelho")}
+}
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const rc=r=>`style="--rc:var(${ROUTES[r].c})"`;
+const KL={missable:"Perdível",choice:"Escolha-chave",save:"Save",exploit:"Macete",info:"Passo"};
+const AP={ok:"Fica",cond:"Talvez",no:"Perde"};
+const isPC=k=>(S.pc||"tav")===k;
+const pcOk=r=>PCS[S.pc||"tav"].camp.includes(r);
+const countFor=r=>COMPS.filter(c=>!isPC(c.k)&&c.m[r][0]!=="no").length;
+const maxC=()=>COMPS.filter(c=>!isPC(c.k)).length;
+const stepVis=s=>!s.o||s.o===(S.pc||"tav");
+function pcBar(){const pc=PCS[S.pc||"tav"];return`<div class="page pcbar" style="--em:${pc.em}"><div class="row" style="gap:12px">${port(pc.ic,pc.em)}<div style="margin-right:auto"><div class="label">Protagonista</div><b style="font:1.25rem var(--f-head)">${pc.n}</b></div><select id="pc-sel" data-pc="1" aria-label="Escolher protagonista">${PCK.map(k=>`<option value="${k}" ${k===(S.pc||"tav")?"selected":""}>${PCS[k].n}</option>`).join("")}</select></div></div>`}
+const swim=p=>`<div class="swim"><i style="width:${Math.max(0,Math.min(100,p))}%"></i></div>`;
+
+function renderPainel(){
+  const VS=STEPS.filter(stepVis);const total=VS.length,done=VS.filter(s=>S.done[s.id]).length;
+  const acts=ACTS.map(a=>{const st=VS.filter(s=>s.a===a.id),d=st.filter(s=>S.done[s.id]).length;return`<div class="stack" style="gap:6px"><div class="row" style="justify-content:space-between"><span style="font-family:var(--f-head);font-size:1.05rem">${a.n}</span><span class="num" style="color:var(--soft)">${d}/${st.length}</span></div>${swim(st.length?d/st.length*100:0)}</div>`}).join("");
+  const routes=RK.map(r=>{const R=ROUTES[r];return`<div class="page route" ${rc(r)}><div class="h">${port(R.ic,`var(${R.c})`)}<div><b>${R.n}</b><div class="camp">${R.camp}</div></div></div><div class="row" style="align-items:baseline;gap:8px"><span class="cnt">${pcOk(r)?countFor(r):"—"}</span><span style="color:var(--soft);font-size:.9rem">${pcOk(r)?`de ${maxC()} companheiros`:`exige ${r==="R"||r==="D"?"a Dark Urge":"Tav ou uma origem"}`}</span></div><p>${esc(R.d)}</p>${S.saves[r]?`<span class="ap ok">Rota concluída</span>`:""}</div>`}).join("");
+  $("#painel").innerHTML=`
+   <div class="hero"><canvas id="heroc" aria-hidden="true"></canvas><div class="in"><span class="k">O Absoluto chama</span><span class="t">Grimório do <em>Girino</em></span><p>Cinco caminhos, duas campanhas e cada companheiro que o caminho permite levar até o Cérebro Ancião.</p></div></div>
+   ${pcBar()}<div class="page note"><span class="seal">i</span><b>Como a run funciona.</b> A Dark Urge é escolhida na criação, então são <b>duas campanhas</b>. Na primeira, um save antes do acampamento goblin separa a linha boa da Maligna, e um save no fim do Ato 2 separa a Heroica do Meio-termo. Na segunda, um save antes do templo de Bhaal separa a Redimida da Devota.</div>
+   <div class="grid2"><div class="page stack"><div class="label">Progresso do roteiro</div><p><span class="num" style="font-size:2rem">${done}</span> <span style="color:var(--soft)">de ${total} passos</span></p>${swim(done/total*100)}${acts}</div>
+   <div class="page stack"><div class="label">Quem fica em cada rota</div>${matrixHTML(true)}<div class="row" style="font-size:.82rem;color:var(--soft);gap:14px"><span class="ap ok">Fica</span><span class="ap cond">Com condição</span><span class="ap no">Perde</span></div></div></div>
+   ${H2("As cinco rotas")}<div class="routes">${routes}</div>`;
+  hero();
+}
+function matrixHTML(compact){
+  const head=RK.map(r=>`<th style="text-align:center;color:var(${ROUTES[r].c})">${compact?`<span class="die" ${rc(r)} title="${ROUTES[r].n}">${r}</span>`:ROUTES[r].n}</th>`).join("");
+  const rows=COMPS.map(c=>`<tr><td><span class="who">${port(c.ic,c.em,true)}${c.n}</span></td>${RK.map(r=>{const v=isPC(c.k)?["you"]:c.m[r];if(v[0]==="you")return`<td class="c"><span class="ap you${compact?" dot":""}">${compact?"":"Você"}</span></td>`;return`<td class="c" title="${AP[v[0]]}${v[1]?": "+esc(v[1]):""}"><span class="ap ${v[0]}${compact?" dot":""}">${compact?"":AP[v[0]]}</span>${!compact&&v[1]?`<div style="font-size:.76rem;color:var(--soft);margin-top:6px;white-space:normal">${esc(v[1])}</div>`:""}</td>`}).join("")}</tr>`).join("");
+  return`<div class="tbl"><table class="mx${compact?" compact":""}"><thead><tr><th>Companheiro</th>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function hero(){
+  const cv=document.getElementById("heroc");if(!cv||!cv.clientWidth)return;const ctx=cv.getContext("2d");const W=cv.clientWidth,H=cv.clientHeight,D=Math.min(2,devicePixelRatio||1);cv.width=W*D;cv.height=H*D;ctx.scale(D,D);
+  let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#03080a");g.addColorStop(.55,"#0a1e22");g.addColorStop(1,"#14262a");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  let s=5;const rnd=()=>(s=(s*16807)%2147483647)/2147483647;
+  for(let i=0;i<110;i++){ctx.fillStyle=`rgba(234,223,201,${rnd()*.55})`;ctx.fillRect(rnd()*W,rnd()*H*.6,1.1,1.1)}
+  const sx=W*(W>600?.74:.7),sy=H*.30,R=Math.min(W*.22,H*.42);
+  g=ctx.createLinearGradient(0,sy,0,H);g.addColorStop(0,"rgba(70,224,201,.35)");g.addColorStop(1,"rgba(70,224,201,0)");ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(sx-R*.25,sy+R*.3);ctx.lineTo(sx+R*.25,sy+R*.3);ctx.lineTo(sx+R*.9,H);ctx.lineTo(sx-R*.9,H);ctx.fill();
+  g=ctx.createRadialGradient(sx,sy,0,sx,sy,R*2.2);g.addColorStop(0,"rgba(239,124,142,.35)");g.addColorStop(1,"rgba(0,0,0,0)");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.save();ctx.lineCap="round";for(let k=0;k<7;k++){const x0=sx-R*.5+k*R*.17;ctx.strokeStyle=`rgba(239,124,142,${.5+.07*k})`;ctx.lineWidth=4-k*.25;ctx.beginPath();ctx.moveTo(x0,sy+R*.2);for(let t=0;t<=1;t+=.05){ctx.lineTo(x0+Math.sin(t*6+k)*R*.12,sy+R*.2+t*R*(1+k%3*.25))}ctx.stroke()}ctx.restore();
+  ctx.save();ctx.translate(sx,sy);ctx.fillStyle="#170e16";ctx.strokeStyle="rgba(239,124,142,.8)";ctx.lineWidth=1.6;ctx.shadowColor="#ef7c8e";ctx.shadowBlur=18;
+  ctx.beginPath();ctx.ellipse(0,0,R,R*.42,-.12,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;
+  for(let i=1;i<6;i++){ctx.strokeStyle=`rgba(239,124,142,${.15+i*.06})`;ctx.beginPath();ctx.ellipse(-R*.1*i,0,R*(1-i*.15),R*.42*(1-i*.12),-.12,-1.2,1.6);ctx.stroke()}
+  ctx.fillStyle="#46E0C9";ctx.shadowColor="#46E0C9";ctx.shadowBlur=14;[[R*.55,-R*.05],[R*.3,R*.12],[R*.7,R*.1]].forEach(p=>{ctx.beginPath();ctx.arc(p[0],p[1],2.4,0,7);ctx.fill()});ctx.restore();
+  ctx.fillStyle="#020506";ctx.beginPath();ctx.moveTo(0,H);const sk=[[0,.82],[.04,.82],[.05,.66],[.06,.6],[.07,.66],[.09,.66],[.1,.74],[.15,.74],[.16,.62],[.17,.52],[.18,.62],[.2,.62],[.21,.7],[.28,.7],[.29,.6],[.3,.6],[.31,.68],[.37,.68],[.38,.56],[.385,.48],[.39,.56],[.41,.72],[.5,.76],[.6,.8],[1,.84],[1,1]];sk.forEach(p=>ctx.lineTo(p[0]*W,p[1]*H));ctx.fill();
+  ctx.fillStyle="rgba(255,190,110,.85)";[[.055,.7],[.165,.66],[.295,.65],[.385,.6],[.12,.78],[.25,.75]].forEach(p=>ctx.fillRect(p[0]*W,p[1]*H,2,3));
+  ctx.strokeStyle="rgba(70,224,201,.25)";ctx.lineWidth=1;for(let i=0;i<9;i++){const y=H*.88+i*5;ctx.beginPath();ctx.moveTo(rnd()*W*.5,y);ctx.lineTo(W*.5+rnd()*W*.5,y);ctx.stroke()}
+  for(let i=0;i<7;i++){const x=sx-R+rnd()*R*2,y=sy+R*.6+rnd()*H*.3;ctx.fillStyle="rgba(239,124,142,.85)";ctx.beginPath();ctx.ellipse(x,y,3.2,2.2,0,0,7);ctx.fill();ctx.strokeStyle="rgba(239,124,142,.6)";ctx.beginPath();ctx.moveTo(x-3,y);ctx.quadraticCurveTo(x-8,y-3,x-12,y+1);ctx.stroke()}
+}
+
+function renderOrigens(){
+  const cur=S.pc||"tav";
+  const cards=PCK.map(k=>{const P=PCS[k];return`<div class="page orig${k===cur?" on":""}" style="--em:${P.em}"><div class="row" style="gap:12px">${port(P.ic,P.em)}<div style="margin-right:auto"><b style="font:1.35rem var(--f-head)">${P.n}</b><div class="label" style="color:var(--soft)">${P.camp.map(r=>ROUTES[r].n).join(" · ")}</div></div>${k===cur?`<span class="ap you">Escolhido</span>`:`<button class="btn ghost" data-setpc="${k}">Escolher</button>`}</div>
+   <p style="font-size:.95rem">${esc(P.sum)}</p><div class="label">Missão</div><p><i style="font-family:var(--f-ital)">${esc(P.quest)}</i></p>
+   <div class="label">O que muda</div><ul>${P.changes.map(x=>`<li>${x}</li>`).join("")}</ul>
+   ${P.ends.length?`<div class="label">Finais exclusivos ou próprios</div>${P.ends.map(e=>`<div class="endcard"><b>${esc(e[0])}</b><p>${esc(e[1])}</p></div>`).join("")}`:""}
+   ${P.warn.length?`<div class="page note" style="padding:10px 12px;box-shadow:none;background:var(--sunk)"><span class="seal">!</span>${P.warn.map(esc).join(" ")}</div>`:""}</div>`}).join("");
+  $("#origens").innerHTML=`${H2("Origens: com quem jogar")}<p class="lede">Você pode ser Tav, a Dark Urge ou um dos seis companheiros de origem. Escolher uma origem muda a missão dela, abre cenas e finais exclusivos e tira esse companheiro do grupo, porque ele passa a ser você.</p>
+   ${pcBar()}
+   <div class="page note"><span class="seal">i</span><b>Regras gerais.</b> Origens têm nome, raça, aparência e antecedente fixos; a classe pode ser refeita com Withers. Você não pode romancear a si mesmo, e o máximo cai para 9 companheiros. Os companheiros reagem a você diretamente, e várias cenas ganham os pensamentos da origem pelo narrador. A Dark Urge é a única origem que nunca vira companheira. Para o máximo de aliados na Campanha 1, Tav continua sendo a melhor escolha; as origens rendem campanhas extras, cada uma em qualquer rota de Tav.</div>
+   <div class="comps">${cards}</div>`;
+}
+function renderRotas(){
+  const cards=RK.map(r=>{const R=ROUTES[r];const keep=COMPS.filter(c=>c.m[r][0]==="ok").map(c=>c.n),cond=COMPS.filter(c=>c.m[r][0]==="cond"),lost=COMPS.filter(c=>c.m[r][0]==="no");
+    return`<div class="page route" ${rc(r)}><div class="h">${port(R.ic,`var(${R.c})`)}<div><b>${R.n}</b><div class="camp">${R.camp}</div></div></div><p>${esc(R.d)}</p>
+     <div class="label">Ficam</div><p style="color:var(--ink)">${keep.join(", ")||"—"}</p>
+     ${cond.length?`<div class="label">Com condição</div>${cond.map(c=>`<p style="color:var(--ink)"><b>${c.n}:</b> ${esc(c.m[r][1])}</p>`).join("")}`:""}
+     ${lost.length?`<div class="label">Perdidos</div>${lost.map(c=>`<p><b style="color:var(--bad)">${c.n}:</b> ${esc(c.m[r][1]||"")}</p>`).join("")}`:""}</div>`}).join("");
+  $("#rotas").innerHTML=`${H2("Rotas")}<p class="lede">O que cada caminho permite manter. Os itens com condição dependem de um passo do Roteiro.</p><div class="page">${matrixHTML(false)}</div><div class="routes" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">${cards}</div>`;
+}
+function renderRoteiro(){
+  const fk=["all",...RK,"crit"];
+  const chips=fk.map(k=>`<button class="chip" aria-pressed="${S.filter===k}" data-filter="${k}" ${ROUTES[k]?rc(k):""}>${ROUTES[k]?`<i></i>${ROUTES[k].n}`:k==="all"?"Tudo":"Só perdíveis e escolhas"}</button>`).join("");
+  const match=s=>{if(S.hideDone&&S.done[s.id])return false;if(S.filter==="all")return true;if(S.filter==="crit")return["missable","choice","save","exploit"].includes(s.k);return s.r.includes(S.filter)};
+  const acts=ACTS.map(a=>{const all=STEPS.filter(s=>s.a===a.id&&stepVis(s)),vis=all.filter(match),d=all.filter(s=>S.done[s.id]).length;
+    const rows=vis.map(s=>{const tags=(s.r.length===5?`<span class="tag">Todas as rotas</span>`:s.r.map(r=>`<span class="tag" ${rc(r)}>${ROUTES[r].n}</span>`).join(""))+(s.c||[]).map(k=>`<span class="tag cp">${port(CMAP[k].ic,CMAP[k].em,true)}${CMAP[k].n}</span>`).join("");const nt=S.notes[s.id]||"";
+      return`<div class="step ${S.done[s.id]?"done":""} kind-${s.k}"><input type="checkbox" id="ck-${s.id}" data-step="${s.id}" ${S.done[s.id]?"checked":""}><div><div class="st-head"><label class="st-title" for="ck-${s.id}">${esc(s.t)}</label>${s.k!=="info"?`<span class="roll ${s.k}">${KL[s.k]}</span>`:""}</div><p class="st-body">${s.d}</p><div class="tags">${tags}</div><button class="notebtn" data-note="${s.id}">${nt?"editar nota":"anotar no diário"}</button>${nt?`<textarea id="nt-${s.id}" data-notefield="${s.id}">${esc(nt.trim())}</textarea>`:""}</div></div>`}).join("");
+    return`<details class="act page" open><summary><span class="chev">›</span><h3>${a.n}</h3><span style="color:var(--soft);font-style:italic;font-family:var(--f-ital)">${a.s}</span><span class="sp"><span class="num">${d}/${all.length}</span><span style="width:90px">${swim(all.length?d/all.length*100:0)}</span></span></summary><div class="steps">${rows||`<div class="step"><span></span><p class="st-body">Nenhum passo deste ato com o filtro atual.</p></div>`}</div></details>`}).join("");
+  $("#roteiro").innerHTML=`${H2("Roteiro de execução")}<p class="lede">Passos que decidem quem fica. Filtre pela rota que está jogando; antes de cada Perdível ou Escolha-chave, faça um save manual.</p><div class="filters">${chips}<label class="chip"><input type="checkbox" id="hide-done" ${S.hideDone?"checked":""}> Ocultar concluídos</label></div><div class="stack">${acts}</div>`;
+}
+function routeChips(){const cur=S.route||"H";return RK.map(r=>`<button class="chip" aria-pressed="${cur===r}" data-route="${r}" ${rc(r)}><i></i>${ROUTES[r].n}</button>`).join("")}
+function renderAliados(){
+  const cur=S.route||"H";
+  const cards=COMPS.map(c=>{if(isPC(c.k)){const P=PCS[c.k];return`<div class="page comp" style="--em:${c.em};--emA:${hexA(c.em,.16)}"><div class="h">${port(c.ic,c.em)}<div style="margin-right:auto"><b>${c.n}</b><small>${c.cls}</small></div><span class="ap you">Você</span></div><dl><dt>Missão</dt><dd><i style="font-family:var(--f-ital)">${esc(P.quest)}</i></dd></dl><p style="font-size:.92rem;color:var(--soft)">Você joga com ${c.n}. A missão vira a versão de origem; veja o que muda na aba Origens.</p><button class="btn ghost" data-tab="origens" style="align-self:flex-start">Abrir Origens</button></div>`}const v=c.m[cur];const ids=c.q.map((x,i)=>cur+c.k+i);const ad=ids.filter(i=>S.arcs[i]).length;const fin=c.e.find(e=>e[2].includes(cur));
+    return`<div class="page comp" style="--em:${c.em};--emA:${hexA(c.em,.16)}"><div class="h">${port(c.ic,c.em)}<div style="margin-right:auto"><b>${c.n}</b><small>${c.cls}</small></div><span class="ap ${v[0]}">${AP[v[0]]}</span></div>
+     <dl><dt>Missão</dt><dd><i style="font-family:var(--f-ital)">${esc(c.quest)}</i></dd><dt>Entra</dt><dd>${esc(c.j)}</dd><dt>Nesta rota</dt><dd>${v[0]==="ok"?"Fica até o fim":v[0]==="cond"?esc(v[1]):`<span style="color:var(--bad)">Perdido.</span> ${esc(v[1]||"")}`}</dd><dt>Perde se</dt><dd>${esc(c.loss)}</dd>${fin&&v[0]!=="no"?`<dt>Final alvo</dt><dd><b>${esc(fin[0])}</b></dd>`:""}</dl>
+     ${v[0]==="no"?"":`<details open><summary><span>Etapas da missão</span><span class="num">${ad}/${c.q.length}</span></summary>${c.q.map((x,i)=>`<div class="qs"><input type="checkbox" id="q-${ids[i]}" data-arc="${ids[i]}" ${S.arcs[ids[i]]?"checked":""}><div><label for="q-${ids[i]}"><span class="a">${x.a}</span> <b>${esc(x.t)}</b></label><p>${esc(x.d)}</p>${x.pick&&x.pick[cur]&&x.pick[cur]!=="—"?`<div class="pick" ${rc(cur)}><b>Escolha na rota ${ROUTES[cur].n}</b>${esc(x.pick[cur])}</div>`:""}</div></div>`).join("")}</details>`}</div>`}).join("");
+  $("#aliados").innerHTML=`${H2("Companheiros")}${pcOk(cur)?"":`<div class="page note"><span class="seal">!</span>A rota <b>${ROUTES[cur].n}</b> exige ${cur==="R"||cur==="D"?"a Dark Urge":"Tav ou uma origem"} como protagonista. Troque o protagonista no Painel ou na aba Origens.</div>`}<p class="lede">Escolha a rota. Cada cartão mostra se o companheiro fica, as etapas da missão pessoal e a decisão certa para essa rota.</p><div class="filters">${routeChips()}</div><div class="comps">${cards}</div>`;
+}
+function renderFinais(){
+  const head=RK.map(r=>`<th style="color:var(${ROUTES[r].c})">${ROUTES[r].n}</th>`).join("");
+  const rows=COMPS.map(c=>`<tr><td><span class="who">${port(c.ic,c.em,true)}${c.n}</span></td>${RK.map(r=>{const e=c.e.find(x=>x[2].includes(r));return`<td style="font-size:.86rem">${c.m[r][0]==="no"?`<span class="ap no">Perdido</span>`:e?esc(e[0]):"—"}</td>`}).join("")}</tr>`).join("");
+  const cards=COMPS.map(c=>`<div class="page comp" style="--em:${c.em};--emA:${hexA(c.em,.14)}"><div class="h">${port(c.ic,c.em)}<b>${c.n}</b></div>${c.e.map(e=>`<div class="endcard"><b>${esc(e[0])}</b><p>${esc(e[1])}</p><div class="tags">${e[2].length?e[2].map(r=>`<span class="tag" ${rc(r)}>${ROUTES[r].n}</span>`).join(""):`<span class="tag">Alternativa</span>`}</div></div>`).join("")}</div>`).join("");
+  $("#finais").innerHTML=`${H2("Finais dos companheiros")}<p class="lede">O epílogo que cada rota busca para cada companheiro. As alternativas sem rota ficam disponíveis a partir do save do final.</p><div class="page tbl"><table><thead><tr><th>Companheiro</th>${head}</tr></thead><tbody>${rows}</tbody></table></div><div class="comps">${cards}</div>`;
+}
+
+function renderDesfechos(){
+  S.alt=S.alt||{};
+  const cards=ALTS.map(a=>{const d=a.req.filter((x,i)=>S.alt[a.id+i]).length;return`<div class="page comp" style="--em:${a.em};--emA:${hexA(a.em,.14)}"><div class="h">${port(a.ic,a.em)}<div style="margin-right:auto"><b>${a.n}</b><small>${a.kind}</small></div><span class="num" style="color:var(--soft)">${d}/${a.req.length}</span></div>
+   <p style="font-size:.95rem">${esc(a.d)}</p><div class="tags">${a.base.map(r=>`<span class="tag" ${rc(r)}>${ROUTES[r].n}</span>`).join("")}</div>
+   <div class="label">Como chegar</div>${a.req.map((x,i)=>`<div class="qs"><input type="checkbox" id="alt-${a.id}${i}" data-alt="${a.id+i}" ${S.alt[a.id+i]?"checked":""}><div><label for="alt-${a.id}${i}"><span class="a">${x[0]}</span> <b>${esc(x[1])}</b></label></div></div>`).join("")}
+   ${a.eff.length?`<div class="label">Efeitos</div><ul style="margin:0;padding-left:18px;font-size:.9rem;display:flex;flex-direction:column;gap:4px">${a.eff.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+   ${a.ends.length?`<div class="label">Variações</div>${a.ends.map(e=>`<div class="endcard"><b>${esc(e[0])}</b><p>${esc(e[1])}</p></div>`).join("")}`:""}</div>`}).join("");
+  $("#desfechos").innerHTML=`${H2("Desfechos e rotas especiais")}<p class="lede">Além das cinco rotas de companheiros, o jogo guarda finais bem diferentes. Quase todos saem do save antes do Cérebro Ancião; o Ilitídeo Ascendido também pede o save antes do Girino Astral.</p>
+   <div class="page note"><span class="seal">!</span><b>Onde encaixar.</b> Faça cada rota de companheiros até o save <code class="sv">[rota]-FINAL</code> e, dali, colecione os desfechos compatíveis. Os marcadores coloridos mostram em quais rotas cada desfecho combina melhor.</div>
+   <div class="comps">${cards}</div>`;
+}
+function renderRomances(){
+  S.rp=S.rp||{};
+  const romable=COMPS.filter(c=>c.k!=="Jaheira"&&c.k!=="Minsc"&&!isPC(c.k));
+  const plan=RK.map(r=>{const v=S.rp[r]||ROMPLAN[r];const ok=romable.filter(c=>c.m[r][0]!=="no");return`<tr><td><span class="who">${port(ROUTES[r].ic,`var(${ROUTES[r].c})`,true)}${ROUTES[r].n}</span></td><td><select id="rp-${r}" data-rp="${r}" aria-label="Romance da rota ${ROUTES[r].n}">${["Nenhum",...ok.map(c=>c.n)].map(n=>`<option ${n===v?"selected":""}>${n}</option>`).join("")}</select></td><td style="font-size:.86rem;color:var(--soft)">${r==="V"?"Na Maligna, Minthara oferece uma noite na comemoração goblin.":r==="R"||r==="D"?"O assassinato do Ato 2 costuma mirar o par romântico; evite descansos longos.":"Inicie até dois romances antes da festa dos tieflings."}</td></tr>`}).join("");
+  const cards=romable.map(c=>`<div class="page comp" style="--em:${c.em};--emA:${hexA(c.em,.14)}"><div class="h">${port(c.ic,c.em)}<b style="margin-right:auto">${c.n}</b>${c.k==="Halsin"?`<span class="ap ok">Poliamor</span>`:`<span class="ap cond">Exclusivo</span>`}</div><p style="font-size:.93rem">${esc(c.rom)}</p></div>`).join("");
+  $("#romances").innerHTML=`${H2("Romances")}<p class="lede">Cada rota é uma partida separada a partir do mesmo save, então dá para viver um romance diferente em cada uma.</p>
+   <div class="page note"><span class="seal">♥</span><b>Regras gerais.</b> Os oito romances aceitam qualquer gênero. Você pode começar com até dois companheiros de origem, mas só um segue adiante. Na festa dos tieflings, dois romances iniciados no mesmo dia, antes do descanso longo, ainda permitem um terceiro na festa; escolher mais que isso pode pular cenas. Halsin aceita dividir com Astarion ou Shadowheart, com consentimento. Jaheira e Minsc não são romanceáveis.</div>
+   <div class="page tbl"><div class="label" style="margin-bottom:8px">Plano: um romance por rota</div><table><thead><tr><th>Rota</th><th>Romance</th><th>Observação</th></tr></thead><tbody>${plan}</tbody></table></div>
+   <div class="comps">${cards}</div>`;
+}
+function renderEquipe(){
+  const cur=S.route||"H";
+  const pcn=PCS[S.pc||"tav"];const party=PARTY[cur].map((p,i)=>{if(S.pc&&S.pc!=="tav"&&S.pc!=="urge"){if(i===0)return["Comandante (você)",pcn.n,"Protagonista de origem. Refaça a classe com Withers se quiser outra função."];if(p[1].startsWith(CMAP[S.pc]?CMAP[S.pc].n:"§")){const used=PARTY[cur].map(q=>q[1]);const alt=[["Laezel","Lae'zel · Guerreira"],["Karlach","Karlach · Bárbara"],["Halsin","Halsin · Druida"],["Wyll","Wyll · Bruxo"]].find(x=>x[0]!==S.pc&&!used.some(u=>u.startsWith(CMAP[x[0]].n))&&COMPS.find(c=>c.k===x[0]).m[cur][0]!=="no");return["Vaga livre",alt?alt[1]:"Companheiro à escolha","Substitui a vaga que era do protagonista; troque conforme a missão."]}}return p});const slots=party.map(p=>{const k=Object.keys(CMAP).find(k=>p[1].startsWith(CMAP[k].n));const c=k&&CMAP[k];return`<div class="page slot"><span class="role">${p[0]}</span><b>${c?port(c.ic,c.em,true):port("tav","#EADFC9",true)}${esc(p[1])}</b><p>${esc(p[2])}</p></div>`}).join("");
+  const full=COMPS.filter(c=>!isPC(c.k)&&c.m[cur][0]!=="no");const modHTML=`<div class="page stack" style="--em:var(--glow)"><div class="row" style="gap:12px"><label class="chip" style="font-size:1rem"><input type="checkbox" id="nolimit" data-nolimit="1" ${S.nolimit?"checked":""}> Uso o mod sem limite de grupo</label><span style="color:var(--soft);font-size:.9rem;font-style:italic;font-family:var(--f-ital)">${PLB.name}, até ${PLB.max} membros</span></div>${S.nolimit?`<div class="label">Grupo completo nesta rota · ${full.length+1} membros</div><div class="party">${[`<div class="page slot"><span class="role">Protagonista</span><b>${port(PCS[S.pc||"tav"].ic,PCS[S.pc||"tav"].em,true)}${esc(PCS[S.pc||"tav"].n)}</b></div>`].concat(full.map(c=>`<div class="page slot"><span class="role">${c.m[cur][0]==="cond"?"Com condição":"Fixo no grupo"}</span><b>${port(c.ic,c.em,true)}${c.n}</b><p>${esc(c.cls)}${c.m[cur][1]?" · "+esc(c.m[cur][1]):""}</p></div>`)).join("")}</div>
+   <div class="grid2"><div class="page stack" style="box-shadow:none;background:var(--sunk)"><div class="label">Instalação</div><p style="font-size:.92rem">${esc(PLB.inst)}</p></div><div class="page stack" style="box-shadow:none;background:var(--sunk)"><div class="label">Cuidados conhecidos</div><ul style="margin:0;padding-left:18px;font-size:.9rem;display:flex;flex-direction:column;gap:4px">${PLB.issues.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>
+   <div class="page note"><span class="seal">d20</span><b>O que muda na rota.</b> Com todos presentes, cada escolha mexe na aprovação de todos de uma vez: decisões malignas custam mais aprovação de Wyll, Karlach, Halsin e Jaheira, e a Maligna fica mais arriscada perto do limite de saída (−50). Há mais conversas entre companheiros, inclusive no Ato 3. Lae'zel no grupo ativo no primeiro descanso na Lower City aumenta a chance de Orin levar Halsin. Para compensar o grupo maior, suba a dificuldade para Tactician.</div>`:""}</div>`;
+  $("#equipe").innerHTML=`${H2("Equipe por rota")}<p class="lede">${S.nolimit?"Com o mod, todos os companheiros que a rota mantém podem andar juntos.":"O grupo ativo tem quatro vagas. Esta é a formação base; troque conforme a missão pessoal em andamento, porque vários arcos exigem o companheiro no grupo."}</p><div class="filters">${routeChips()}</div>${modHTML}${S.nolimit?"":`<div class="party">${slots}</div>`}
+   <div class="page note"><span class="seal">d20</span><b>Dicas para todas as rotas.</b> Withers, no acampamento, refaz a classe de qualquer companheiro por 100 de ouro. Leve sempre alguém com Carisma alto para os testes de diálogo que decidem recrutamentos. Para nocautes (Minthara, Minsc), ative os ataques não letais antes do golpe final. Revezar companheiros mantém a aprovação de todos longe do ponto de saída (−50).</div>`;
+}
+function renderSaves(){
+  const W=900,H=300;
+  const node=(x,y,a,b)=>`<rect x="${x-72}" y="${y-22}" width="144" height="44" rx="14" fill="var(--page)" stroke="var(--glow)" stroke-width="1.5"/><text x="${x}" y="${y-3}" text-anchor="middle" fill="var(--ink)" font-size="12" font-family="var(--f-num)">${a}</text><text x="${x}" y="${y+13}" text-anchor="middle" fill="var(--soft)" font-size="11" font-family="var(--f-ital)" font-style="italic">${b}</text>`;
+  const cv=(x1,y1,x2,y2,c)=>`<path d="M${x1} ${y1} C ${(x1+x2)/2} ${y1}, ${(x1+x2)/2} ${y2}, ${x2} ${y2}" fill="none" stroke="var(${c})" stroke-width="2.4" stroke-linecap="round"/>`;
+  const end=(x,y,r)=>`<polygon points="${x},${y-9} ${x+8},${y-4.5} ${x+8},${y+4.5} ${x},${y+9} ${x-8},${y+4.5} ${x-8},${y-4.5}" fill="var(${ROUTES[r].c})" opacity="${S.saves[r]?1:.5}"/><text x="${x+16}" y="${y+5}" fill="var(--ink)" font-size="14" font-family="var(--f-head)">${ROUTES[r].n}${S.saves[r]?" · concluída":""}</text>`;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Árvore de saves">`;
+  s+=`<text x="16" y="24" fill="var(--copper)" font-size="11" font-family="var(--f-num)" letter-spacing="2">CAMPANHA 1 · TAV</text>`;
+  s+=cv(172,80,330,50,"--r-h")+cv(172,80,330,120,"--r-v")+cv(472,50,640,30,"--r-h")+cv(472,50,640,74,"--r-m");
+  s+=node(100,80,"T-A1-GOBLINS","antes do acampamento")+node(400,50,"A2-FIM","linha boa")+end(340,120,"V")+end(650,30,"H")+end(650,74,"M");
+  s+=`<text x="16" y="186" fill="var(--copper)" font-size="11" font-family="var(--f-num)" letter-spacing="2">CAMPANHA 2 · DARK URGE</text>`;
+  s+=cv(172,240,330,215,"--r-r")+cv(172,240,330,265,"--r-d");
+  s+=node(100,240,"U-A3-TEMPLO","antes de Bhaal")+end(340,215,"R")+end(340,265,"D")+`</svg>`;
+  const groups=[["Campanha 1 · Tav",[["H","Heroica até o fim"],["M","Meio-termo (do save A2-FIM)"],["V","Maligna (do save T-A1-GOBLINS)"]]],["Campanha 2 · Dark Urge",[["R","Urge Redimida"],["D","Urge Devota (do save U-A3-TEMPLO)"]]]];
+  const cards=groups.map(g=>`<div class="page branch"><h3>${g[0]}</h3>${g[1].map(i=>`<label><input type="checkbox" data-save="${i[0]}" ${S.saves[i[0]]?"checked":""}> <span style="color:var(${ROUTES[i[0]].c});font-family:var(--f-head);font-size:1.05rem">${i[1]}</span></label>`).join("")}</div>`).join("");
+  $("#saves").innerHTML=`${H2("Árvore de saves")}<p class="lede">Marque cada rota concluída. Nunca sobrescreva os saves de bifurcação.</p><div class="page svtree">${s}</div><div class="branches">${cards}</div>
+   <div class="page note"><span class="seal">!</span><b>Ordem recomendada.</b> Na Campanha 1, jogue a Heroica primeiro e use <code class="sv">A2-FIM</code> para o Meio-termo; deixe a Maligna para o fim, saindo de <code class="sv">T-A1-GOBLINS</code>. Na Campanha 2, faça a Redimida até o fim e volte a <code class="sv">U-A3-TEMPLO</code> para a Devota. Partidas com uma origem são campanhas extras: cada uma segue a árvore da Campanha 1. Os desfechos especiais saem de <code class="sv">[rota]-FINAL</code>; o Ilitídeo Ascendido também de <code class="sv">A3-GIRINO</code>.</div>`;
+}
+function renderDados(){
+  const th=S.theme||DEFAULT_THEME;
+  $("#dados").innerHTML=`${H2("Backup e ajustes")}<p class="lede">O progresso fica salvo neste aparelho.</p>
+  <div class="page stack"><label class="label" for="theme-sel">Tema</label><select id="theme-sel" data-themesel="1"><option value="system" ${th==="system"?"selected":""}>Seguir o sistema</option><option value="dark" ${th==="dark"?"selected":""}>Nautiloide (escuro)</option><option value="light" ${th==="light"?"selected":""}>Diário de campanha (claro)</option></select></div>
+  <div class="page stack"><label class="label" for="exp">Código do progresso</label><textarea id="exp" readonly style="font:.74rem var(--f-num);min-height:100px">${esc(JSON.stringify(S))}</textarea><div class="row"><button class="btn" id="copy">Copiar código</button><span id="copymsg" style="color:var(--soft);font-size:.85rem"></span></div></div>
+  <div class="page stack"><label class="label" for="imp">Restaurar</label><textarea id="imp" placeholder="Cole aqui o código copiado"></textarea><div class="row"><button class="btn ghost" id="doimp">Restaurar</button><span id="impmsg" style="font-size:.85rem"></span></div></div>
+  <div class="page stack"><div class="label">Zerar</div><div class="row"><button class="btn danger" id="reset">Zerar progresso</button><button class="btn danger" id="reset2" hidden>Confirmar: apagar tudo</button></div></div>
+  <p style="font-size:.82rem;color:var(--soft)">Fonte principal: bg3.wiki. Guia não oficial.</p>`;
+}
+function applyTheme(){const t=S.theme||DEFAULT_THEME;const r=document.documentElement;if(t==="system")r.removeAttribute("data-theme");else r.setAttribute("data-theme",t);const dark=t==="dark"||(t==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);const m=document.querySelector("meta[name=theme-color]");if(m)m.content=dark?"#0F1A1D":"#FBF5E8";try{window.Android&&Android.setDark&&Android.setDark(dark)}catch(e){}}
+function renderAll(){applyTheme();renderPainel();renderOrigens();renderRotas();renderRoteiro();renderAliados();renderFinais();renderDesfechos();renderRomances();renderEquipe();renderSaves();renderDados()}
+let CUR="painel";
+function copyText(ta){const done=m=>{const el=$("#copymsg");if(el)el.textContent=m};try{if(window.Android&&Android.share){Android.share(ta.value);done("Escolha onde guardar o código.");return}}catch(e){}try{navigator.clipboard.writeText(ta.value).then(()=>done("Copiado.")).catch(()=>{ta.select();try{document.execCommand("copy");done("Copiado.")}catch(x){done("Selecionado. Copie manualmente.")}})}catch(e){ta.select();try{document.execCommand("copy");done("Copiado.")}catch(x){done("Selecionado. Copie manualmente.")}}}
+function showTab(t){CUR=t;document.querySelectorAll("[role=tab]").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));document.querySelectorAll("[role=tabpanel]").forEach(p=>p.hidden=p.id!==t);try{history.replaceState(null,"","#"+t)}catch(e){}window.scrollTo(0,0);if(t==="painel")hero()}
+document.addEventListener("click",e=>{
+  const tb=e.target.closest("[data-tab]");if(tb){showTab(tb.dataset.tab);return}
+  const f=e.target.closest("[data-filter]");if(f){S.filter=f.dataset.filter;persist();renderRoteiro();return}
+  const sp=e.target.closest("[data-setpc]");if(sp){S.pc=sp.dataset.setpc;persist();renderAll();return}
+  const ro=e.target.closest("[data-route]");if(ro){S.route=ro.dataset.route;persist();renderAliados();renderEquipe();return}
+  const n=e.target.closest("[data-note]");if(n){const id=n.dataset.note;if(!S.notes[id])S.notes[id]=" ";renderRoteiro();const ta=document.getElementById("nt-"+id);if(ta)ta.focus();return}
+  if(e.target.id==="copy"){const ta=$("#exp");copyText(ta)}
+  if(e.target.id==="doimp"){try{const o=JSON.parse($("#imp").value);if(!o.done)throw 0;S=Object.assign({done:{},arcs:{},saves:{},notes:{},filter:"all",hideDone:false,route:"H",rp:{},pc:"tav"},o);persist();renderAll();showTab("dados");$("#impmsg").textContent="Progresso restaurado."}catch(x){$("#impmsg").textContent="Código inválido. Cole o texto completo."}}
+  if(e.target.id==="reset")$("#reset2").hidden=false;
+  if(e.target.id==="reset2"){S={done:{},arcs:{},saves:{},notes:{},filter:"all",hideDone:false,route:"H",rp:{},pc:"tav"};persist();renderAll();showTab("dados")}
+});
+document.addEventListener("change",e=>{const t=e.target;
+  if(t.dataset.step){if(t.checked)S.done[t.dataset.step]=true;else delete S.done[t.dataset.step];persist();renderPainel();renderRoteiro();return}
+  if(t.dataset.arc){if(t.checked)S.arcs[t.dataset.arc]=true;else delete S.arcs[t.dataset.arc];persist();renderAliados();return}
+  if(t.dataset.save){if(t.checked)S.saves[t.dataset.save]=true;else delete S.saves[t.dataset.save];persist();renderSaves();renderPainel();return}
+  if(t.dataset.nolimit){S.nolimit=t.checked;persist();renderEquipe();return}
+  if(t.dataset.alt){S.alt=S.alt||{};if(t.checked)S.alt[t.dataset.alt]=true;else delete S.alt[t.dataset.alt];persist();renderDesfechos();return}
+  if(t.dataset.pc){S.pc=t.value;persist();renderAll();return}
+  if(t.dataset.rp){S.rp[t.dataset.rp]=t.value;persist();return}
+  if(t.dataset.themesel){S.theme=t.value;persist();applyTheme();return}
+  if(t.id==="hide-done"){S.hideDone=t.checked;persist();renderRoteiro()}
+});
+document.addEventListener("input",e=>{const id=e.target.dataset.notefield;if(id){S.notes[id]=e.target.value;persist()}});
+addEventListener("resize",()=>{if(!document.getElementById("painel").hidden)hero()});
+initStore();platformInit();
+const hh=(location.hash||"").slice(1);if(TABS.some(t=>t[0]===hh))showTab(hh);
+
+(function(){const cov=document.getElementById("cover");if(!cov)return;const cv=document.getElementById("cvc"),x=cv.getContext("2d");const red=matchMedia("(prefers-reduced-motion: reduce)").matches;let W,H,run=true,tad=[],stars=[];
+function rs(){const D=Math.min(2,devicePixelRatio||1);W=cov.clientWidth;H=cov.clientHeight;cv.width=W*D;cv.height=H*D;x.setTransform(D,0,0,D,0,0);let s=9;const r=()=>(s=(s*16807)%2147483647)/2147483647;stars=[];for(let i=0;i<160;i++)stars.push([r()*W,r()*H*.6,r()*1.2+.3,r()])}
+function draw(t){const P=H>W,sx=W*(P?.5:.68),sy=H*(P?.2:.28),Rr=Math.min(W*(P?.42:.24),H*.22),pul=red?0:Math.sin(t/800)*.5+.5;
+ let g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,"#02060a");g.addColorStop(.55,"#09191d");g.addColorStop(1,"#0f2125");x.fillStyle=g;x.fillRect(0,0,W,H);
+ for(const s of stars){x.globalAlpha=.3+.5*Math.abs(Math.sin(t/1500+s[3]*7));x.fillStyle="#EADFC9";x.fillRect(s[0],s[1],s[2],s[2])}x.globalAlpha=1;
+ g=x.createLinearGradient(0,sy,0,H);g.addColorStop(0,`rgba(70,224,201,${.28+.14*pul})`);g.addColorStop(1,"rgba(70,224,201,0)");x.fillStyle=g;x.beginPath();x.moveTo(sx-Rr*.25,sy+Rr*.3);x.lineTo(sx+Rr*.25,sy+Rr*.3);x.lineTo(sx+Rr*1.1,H);x.lineTo(sx-Rr*1.1,H);x.fill();
+ g=x.createRadialGradient(sx,sy,0,sx,sy,Rr*2.4);g.addColorStop(0,`rgba(239,124,142,${.3+.12*pul})`);g.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=g;x.fillRect(0,0,W,H);
+ x.save();x.lineCap="round";for(let k=0;k<9;k++){const x0=sx-Rr*.6+k*Rr*.15;x.strokeStyle=`rgba(239,124,142,${.45+.05*k})`;x.lineWidth=5-k*.3;x.beginPath();x.moveTo(x0,sy+Rr*.2);for(let q=0;q<=1;q+=.04){x.lineTo(x0+Math.sin(q*6+k+t/(red?1e9:900))*Rr*.13,sy+Rr*.2+q*Rr*(1.1+(k%3)*.3))}x.stroke()}x.restore();
+ x.save();x.translate(sx,sy);x.fillStyle="#140c14";x.strokeStyle="rgba(239,124,142,.85)";x.lineWidth=2;x.shadowColor="#ef7c8e";x.shadowBlur=22;x.beginPath();x.ellipse(0,0,Rr,Rr*.42,-.1,0,7);x.fill();x.stroke();x.shadowBlur=0;
+ for(let i=1;i<6;i++){x.strokeStyle=`rgba(239,124,142,${.15+i*.07})`;x.beginPath();x.ellipse(-Rr*.1*i,0,Rr*(1-i*.15),Rr*.42*(1-i*.12),-.1,-1.2,1.6);x.stroke()}
+ x.fillStyle="#46E0C9";x.shadowColor="#46E0C9";x.shadowBlur=16;[[.55,-.05],[.3,.12],[.72,.1],[.1,.15]].forEach(p=>{x.beginPath();x.arc(p[0]*Rr,p[1]*Rr,2.6+pul,0,7);x.fill()});x.restore();
+ x.fillStyle="#010304";x.beginPath();x.moveTo(0,H);const sk=[[0,.86],[.05,.86],[.06,.74],[.07,.68],[.08,.74],[.11,.74],[.12,.8],[.18,.8],[.19,.7],[.2,.6],[.21,.7],[.24,.7],[.25,.78],[.33,.78],[.34,.69],[.36,.69],[.37,.76],[.44,.76],[.45,.64],[.455,.57],[.46,.64],[.49,.8],[.6,.82],[.72,.85],[1,.87],[1,1]];sk.forEach(p=>x.lineTo(p[0]*W,p[1]*H));x.fill();
+ x.fillStyle="rgba(255,190,110,.85)";[[.065,.77],[.2,.73],[.35,.72],[.455,.67],[.15,.83],[.3,.81]].forEach(p=>x.fillRect(p[0]*W,p[1]*H,2,3));
+ x.strokeStyle="rgba(70,224,201,.22)";x.lineWidth=1;for(let i=0;i<10;i++){const y=H*.9+i*6;x.beginPath();x.moveTo((i*97)%W*.4,y);x.lineTo(W*.55+(i*53)%W*.45,y);x.stroke()}
+ if(!red){if(tad.length<26&&Math.random()<.08)tad.push({x:sx+(Math.random()-.5)*Rr*1.6,y:H*.95,v:.4+Math.random()*.8,p:Math.random()*6});tad=tad.filter(q=>q.y>sy+Rr*.3);
+  for(const q of tad){q.y-=q.v;q.p+=.15;const wx=q.x+Math.sin(q.p)*3;x.fillStyle="rgba(239,124,142,.9)";x.beginPath();x.ellipse(wx,q.y,3.4,2.4,-1.4,0,7);x.fill();x.strokeStyle="rgba(239,124,142,.6)";x.lineWidth=1.4;x.beginPath();x.moveTo(wx,q.y+3);x.quadraticCurveTo(wx+Math.sin(q.p*2)*4,q.y+8,wx,q.y+13);x.stroke()}}}
+function loop(n){if(!run)return;draw(n);requestAnimationFrame(loop)}addEventListener("resize",()=>{if(run){rs();if(red)draw(0)}});rs();red?draw(0):requestAnimationFrame(loop);
+ try{const VS=STEPS.filter(stepVis);const n=VS.filter(s=>S.done[s.id]).length;if(n)document.getElementById("cv-c").textContent=`Continuar · ${n} de ${VS.length} passos · ${PCS[S.pc||"tav"].n}`}catch(e){}
+ window.coverOpen=true;function enter(){if(!window.coverOpen)return;window.coverOpen=false;cov.classList.add("out");setTimeout(()=>{run=false;cov.remove();try{hero()}catch(e){}},red?200:700)}
+ document.getElementById("cv-enter").addEventListener("click",enter);document.addEventListener("keydown",e=>{if(window.coverOpen&&(e.key==="Enter"||e.key===" ")){e.preventDefault();enter()}})})();
+</script></body></html>
